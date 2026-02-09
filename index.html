@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK Multiverse | Enterprise Cloud Dashboard</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Color System */
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            
+            /* Neutral Colors */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Layout */
+            --sidebar-width: 260px;
+            --sidebar-collapsed: 70px;
+            --topbar-height: 70px;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            /* Theme */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-sidebar: #1e293b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        
+        .dark-theme {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-sidebar: #0f172a;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            transition: width var(--transition-speed);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 8px;
+        }
+        
+        .logo-text {
+            transition: opacity var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .logo-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+            flex-grow: 1;
+        }
+        
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: opacity var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .nav-section-title {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--primary);
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        
+        .nav-text {
+            transition: opacity var(--transition-speed);
+            white-space: nowrap;
+        }
+        
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sidebar-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            transition: margin-left var(--transition-speed);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar.collapsed ~ .main-content {
+            margin-left: var(--sidebar-collapsed);
+        }
+        
+        /* Top Navbar */
+        .topbar {
+            height: var(--topbar-height);
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            color: var(--text-primary);
+            margin-left: 0.5rem;
+        }
+        
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .theme-toggle, .notifications-btn, .user-menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            transition: background-color var(--transition-speed);
+            position: relative;
+        }
+        
+        .theme-toggle:hover, .notifications-btn:hover, .user-menu-btn:hover {
+            background-color: var(--bg-secondary);
+        }
+        
+        .notifications-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity var(--transition-speed), transform var(--transition-speed), visibility var(--transition-speed);
+        }
+        
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background-color var(--transition-speed);
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-align: left;
+            background: none;
+            font-family: inherit;
+            font-size: inherit;
+        }
+        
+        .dropdown-item:hover {
+            background-color: var(--bg-secondary);
+        }
+        
+        /* Content Area */
+        .content-area {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Cards */
+        .card {
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Status Indicators */
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .status-healthy {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-down {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Progress Bars */
+        .progress-bar {
+            height: 8px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+        
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 400px;
+        }
+        
+        .toast {
+            padding: 1rem 1.25rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--text-primary);
+        }
+        
+        .toast-error {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            color: var(--text-primary);
+        }
+        
+        .toast-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+            color: var(--text-primary);
+        }
+        
+        .toast-info {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--info);
+            color: var(--text-primary);
+        }
+        
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background-color: var(--bg-secondary);
+            padding: 0.875rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--gray-200);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        
+        /* Server Actions */
+        .server-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed), visibility var(--transition-speed);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            transition: transform var(--transition-speed);
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Animation Classes */
+        @keyframes countUp {
+            from { 
+                content: "0"; 
+            }
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .main-content {
+                margin-left: var(--sidebar-collapsed);
+            }
+            
+            .sidebar .nav-text,
+            .sidebar .logo-text,
+            .sidebar .nav-section-title {
+                opacity: 0;
+                width: 0;
+                overflow: hidden;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .topbar {
+                padding: 0 1rem;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+            
+            .content-area {
+                padding: 1rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <span class="logo-text">MK Multiverse</span>
+                </a>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                    <a href="#servers" class="nav-link" data-page="servers">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                        </svg>
+                        <span class="nav-text">Servers</span>
+                    </a>
+                    <a href="#analytics" class="nav-link" data-page="analytics">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span class="nav-text">Analytics</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Security & Access</div>
+                    <a href="#security" class="nav-link" data-page="security">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span class="nav-text">Security</span>
+                    </a>
+                    <a href="#users" class="nav-link" data-page="users">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span class="nav-text">Users</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Billing & Support</div>
+                    <a href="#billing" class="nav-link" data-page="billing">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        <span class="nav-text">Billing</span>
+                    </a>
+                    <a href="#support" class="nav-link" data-page="support">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        </svg>
+                        <span class="nav-text">Support</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">System</div>
+                    <a href="#settings" class="nav-link" data-page="settings">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                    <button class="nav-link" id="logoutBtn">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <span class="nav-text">Logout</span>
+                    </button>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- ===== TOPBAR ===== -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                    <div class="search-bar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search servers, users, logs...">
+                    </div>
+                </div>
+                
+                <div class="topbar-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                    
+                    <button class="notifications-btn" id="notificationsBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="notifications-badge" id="notificationBadge">3</span>
+                    </button>
+                    
+                    <button class="user-menu-btn" id="userMenuBtn">
+                        <div class="user-avatar">MK</div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- ===== CONTENT AREA ===== -->
+            <div class="content-area" id="contentArea">
+                <!-- Toast Notifications Container -->
+                <div class="toast-container" id="toastContainer"></div>
+                
+                <!-- Dashboard Content (default view) -->
+                <div id="dashboardContent">
+                    <!-- Dashboard Overview -->
+                    <div class="dashboard-grid">
+                        <!-- Resource Usage Card -->
+                        <div class="card" data-aos="fade-up">
+                            <div class="card-header">
+                                <h3 class="card-title">Resource Usage</h3>
+                                <span class="status-pill status-healthy">Optimal</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="resource-item">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <span>CPU Utilization</span>
+                                        <span class="counter" id="cpuCounter">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="cpuProgress" style="width: 65%; background-color: var(--success);"></div>
+                                    </div>
+                                </div>
+                                <div class="resource-item" style="margin-top: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <span>Memory Usage</span>
+                                        <span class="counter" id="memoryCounter">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="memoryProgress" style="width: 78%; background-color: var(--warning);"></div>
+                                    </div>
+                                </div>
+                                <div class="resource-item" style="margin-top: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <span>Storage</span>
+                                        <span class="counter" id="storageCounter">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="storageProgress" style="width: 45%; background-color: var(--success);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Billing Overview Card -->
+                        <div class="card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card-header">
+                                <h3 class="card-title">Billing Overview</h3>
+                                <span class="status-pill status-healthy">Current</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="text-align: center; margin-bottom: 1.5rem;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">
+                                        $<span class="counter" id="billingCounter">0</span>
+                                    </div>
+                                    <div style="color: var(--text-secondary); font-size: 0.875rem;">Estimated Monthly Cost</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                                    <span>Compute Hours</span>
+                                    <span>1,240 hrs</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                                    <span>Storage Used</span>
+                                    <span>2.4 TB</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                                    <span>Bandwidth</span>
+                                    <span>45.2 GB</span>
+                                </div>
+                                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="downloadInvoiceBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Download Invoice
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Security Status Card -->
+                        <div class="card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-header">
+                                <h3 class="card-title">Security Status</h3>
+                                <span class="status-pill status-healthy">Secure</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <div style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
+                                        <span>Encryption</span>
+                                    </div>
+                                    <span>Active</span>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <div style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
+                                        <span>Firewall</span>
+                                    </div>
+                                    <span>Enabled</span>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <div style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--warning);"></div>
+                                        <span>Audit Logs</span>
+                                    </div>
+                                    <span>Pending</span>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <div style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
+                                        <span>Access Control</span>
+                                    </div>
+                                    <span>RBAC Active</span>
+                                </div>
+                                <div class="server-actions">
+                                    <button class="btn btn-secondary" id="runSecurityAuditBtn" style="flex: 1;">
+                                        Run Audit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Log -->
+                    <div class="card" style="margin-bottom: 2rem;" data-aos="fade-up">
+                        <div class="card-header">
+                            <h3 class="card-title">Activity Log</h3>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" id="filterLogsBtn">
+                                    Filter
+                                </button>
+                                <button class="btn btn-secondary" id="exportLogsBtn">
+                                    Export
+                                </button>
+                                <button class="btn btn-secondary" id="clearLogsBtn">
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table id="activityLogTable">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Action</th>
+                                        <th>User</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activityLogBody">
+                                    <!-- Activity logs will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Server Status Grid -->
+                    <h3 style="margin-bottom: 1rem;" data-aos="fade-up">Server Status</h3>
+                    <div class="dashboard-grid" style="margin-bottom: 2rem;">
+                        <div class="card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card-header">
+                                <h4 class="card-title">US-East-1</h4>
+                                <span class="status-pill status-healthy">Healthy</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Instances</span>
+                                    <span>12</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Load Balancer</span>
+                                    <span>Active</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Uptime</span>
+                                    <span>99.95%</span>
+                                </div>
+                                <div class="server-actions">
+                                    <button class="btn btn-secondary" data-server="us-east-1" data-action="restart">
+                                        Restart
+                                    </button>
+                                    <button class="btn btn-primary" data-server="us-east-1" data-action="manage">
+                                        Manage
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-header">
+                                <h4 class="card-title">EU-West-2</h4>
+                                <span class="status-pill status-healthy">Healthy</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Instances</span>
+                                    <span>8</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Load Balancer</span>
+                                    <span>Active</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Uptime</span>
+                                    <span>99.98%</span>
+                                </div>
+                                <div class="server-actions">
+                                    <button class="btn btn-secondary" data-server="eu-west-2" data-action="restart">
+                                        Restart
+                                    </button>
+                                    <button class="btn btn-primary" data-server="eu-west-2" data-action="manage">
+                                        Manage
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="card-header">
+                                <h4 class="card-title">AP-South-1</h4>
+                                <span class="status-pill status-warning">Warning</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Instances</span>
+                                    <span>5</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Load Balancer</span>
+                                    <span>Degraded</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Uptime</span>
+                                    <span>97.32%</span>
+                                </div>
+                                <div class="server-actions">
+                                    <button class="btn btn-secondary" data-server="ap-south-1" data-action="restart">
+                                        Restart
+                                    </button>
+                                    <button class="btn btn-primary" data-server="ap-south-1" data-action="manage">
+                                        Manage
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="card" data-aos="fade-up">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Actions</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                                <button class="btn btn-primary" id="deployServerBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Deploy New Server
+                                </button>
+                                <button class="btn btn-secondary" id="createBackupBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                        <polyline points="7 3 7 8 15 8"></polyline>
+                                    </svg>
+                                    Create Backup
+                                </button>
+                                <button class="btn btn-secondary" id="scaleResourcesBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                    </svg>
+                                    Scale Resources
+                                </button>
+                                <button class="btn btn-danger" id="emergencyShutdownBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                                    </svg>
+                                    Emergency Shutdown
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other page content will be loaded here dynamically -->
+                <div id="dynamicContent"></div>
+            </div>
+            
+            <!-- ===== MODALS ===== -->
+            <!-- Server Management Modal -->
+            <div class="modal-overlay" id="serverModal">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3 id="modalTitle">Manage Server</h3>
+                        <button class="btn btn-secondary" id="closeModalBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Dynamic content will be loaded here -->
+                    </div>
+                    <div class="modal-footer" id="modalFooter">
+                        <!-- Dynamic buttons will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ===== FOOTER ===== -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-logo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        <span>MK Multiverse</span>
+                    </div>
+                    <div>Developed by MK Multiverse Team</div>
+                    <div>Managed by Murli Kumar</div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // ===== APPLICATION STATE =====
+        const AppState = {
+            currentPage: 'dashboard',
+            notifications: [
+                { id: 1, type: 'success', message: 'Server backup completed', read: false },
+                { id: 2, type: 'warning', message: 'High CPU usage detected', read: false },
+                { id: 3, type: 'info', message: 'Security audit required', read: false },
+                { id: 4, type: 'info', message: 'System update available', read: true },
+                { id: 5, type: 'success', message: 'New user registered', read: true }
+            ],
+            activityLogs: [
+                { id: 1, timestamp: '2023-10-15 14:32:10', action: 'Server backup initiated', user: 'admin@mkmultiverse.com', status: 'success' },
+                { id: 2, timestamp: '2023-10-15 13:45:22', action: 'User role updated', user: 'security@mkmultiverse.com', status: 'success' },
+                { id: 3, timestamp: '2023-10-15 11:20:15', action: 'Database scaling operation', user: 'system@mkmultiverse.com', status: 'warning' },
+                { id: 4, timestamp: '2023-10-15 09:15:05', action: 'Failed login attempt', user: 'unknown@external.com', status: 'blocked' },
+                { id: 5, timestamp: '2023-10-14 22:10:33', action: 'Security audit completed', user: 'audit@mkmultiverse.com', status: 'success' }
+            ],
+            servers: {
+                'us-east-1': { name: 'US-East-1', instances: 12, status: 'healthy', loadBalancer: 'active', uptime: '99.95%' },
+                'eu-west-2': { name: 'EU-West-2', instances: 8, status: 'healthy', loadBalancer: 'active', uptime: '99.98%' },
+                'ap-south-1': { name: 'AP-South-1', instances: 5, status: 'warning', loadBalancer: 'degraded', uptime: '97.32%' }
+            },
+            user: {
+                name: 'Murli Kumar',
+                email: 'admin@mkmultiverse.com',
+                role: 'admin',
+                avatar: 'MK'
+            },
+            theme: 'light'
+        };
+        
+        // ===== UI UTILITIES =====
+        // Initialize AOS animations
+        AOS.init({
+            duration: 600,
+            once: true,
+            offset: 100
+        });
+        
+        // Toast types
+        const ToastType = {
+            SUCCESS: 'success',
+            ERROR: 'error',
+            WARNING: 'warning',
+            INFO: 'info'
+        };
+        
+        // Show toast notification
+        function showToast(message, type = ToastType.INFO) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            let icon;
+            switch(type) {
+                case ToastType.SUCCESS:
+                    icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+                    break;
+                case ToastType.ERROR:
+                    icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+                    break;
+                case ToastType.WARNING:
+                    icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+                    break;
+                default:
+                    icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+            }
+            
+            toast.innerHTML = `
+                ${icon}
+                <span>${message}</span>
+                <button class="toast-close" style="margin-left: auto; background: none; border: none; color: inherit; cursor: pointer;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // Close button
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            });
+            
+            // Auto dismiss after 5 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 5000);
+            
+            return toast;
+        }
+        
+        // Show modal
+        function showModal(title, content, buttons = []) {
+            const modal = document.getElementById('serverModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+            
+            modalTitle.textContent = title;
+            modalBody.innerHTML = content;
+            
+            // Clear previous buttons
+            modalFooter.innerHTML = '';
+            
+            // Add close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'btn btn-secondary';
+            closeBtn.textContent = 'Close';
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+            modalFooter.appendChild(closeBtn);
+            
+            // Add custom buttons
+            buttons.forEach(button => {
+                const btn = document.createElement('button');
+                btn.className = `btn ${button.class || 'btn-primary'}`;
+                btn.textContent = button.text;
+                btn.addEventListener('click', button.action);
+                modalFooter.appendChild(btn);
+            });
+            
+            modal.classList.add('active');
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('serverModal').classList.remove('active');
+        }
+        
+        // Update notification badge
+        function updateNotificationBadge() {
+            const unreadCount = AppState.notifications.filter(n => !n.read).length;
+            document.getElementById('notificationBadge').textContent = unreadCount;
+        }
+        
+        // Animated counters
+        function animateCounter(element, target, suffix = '', duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + suffix;
+                }
+            }, 16);
+        }
+        
+        // Load activity logs
+        function loadActivityLogs() {
+            const tbody = document.getElementById('activityLogBody');
+            tbody.innerHTML = '';
+            
+            AppState.activityLogs.forEach(log => {
+                const row = document.createElement('tr');
+                let statusClass = 'status-healthy';
+                if (log.status === 'warning') statusClass = 'status-warning';
+                if (log.status === 'blocked') statusClass = 'status-down';
+                
+                row.innerHTML = `
+                    <td>${log.timestamp}</td>
+                    <td>${log.action}</td>
+                    <td>${log.user}</td>
+                    <td><span class="status-pill ${statusClass}">${log.status}</span></td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm view-log" data-id="${log.id}">View</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-log').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const logId = parseInt(this.getAttribute('data-id'));
+                    const log = AppState.activityLogs.find(l => l.id === logId);
+                    if (log) {
+                        showModal('Activity Log Details', `
+                            <div>
+                                <p><strong>Timestamp:</strong> ${log.timestamp}</p>
+                                <p><strong>Action:</strong> ${log.action}</p>
+                                <p><strong>User:</strong> ${log.user}</p>
+                                <p><strong>Status:</strong> ${log.status}</p>
+                                <p><strong>Details:</strong> This action was performed by the user at the specified time.</p>
+                            </div>
+                        `);
+                    }
+                });
+            });
+        }
+        
+        // Add activity log
+        function addActivityLog(action, user, status) {
+            const now = new Date();
+            const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            
+            const newLog = {
+                id: AppState.activityLogs.length + 1,
+                timestamp,
+                action,
+                user,
+                status
+            };
+            
+            AppState.activityLogs.unshift(newLog);
+            loadActivityLogs();
+            
+            // Show toast notification
+            let toastType = ToastType.INFO;
+            if (status === 'success') toastType = ToastType.SUCCESS;
+            if (status === 'warning') toastType = ToastType.WARNING;
+            if (status === 'blocked' || status === 'error') toastType = ToastType.ERROR;
+            
+            showToast(action, toastType);
+        }
+        
+        // ===== SIDEBAR HANDLER =====
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            
+            // Update toggle icon direction
+            const icon = sidebarToggle.querySelector('svg');
+            if (sidebar.classList.contains('collapsed')) {
+                icon.innerHTML = '<path d="M9 18l6-6-6-6"/>';
+            } else {
+                icon.innerHTML = '<path d="M15 18l-6-6 6-6"/>';
+            }
+        });
+        
+        // ===== THEME TOGGLE =====
+        const themeToggle = document.getElementById('themeToggle');
+        
+        themeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('dark-theme')) {
+                document.body.classList.remove('dark-theme');
+                AppState.theme = 'light';
+                themeToggle.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+            } else {
+                document.body.classList.add('dark-theme');
+                AppState.theme = 'dark';
+                themeToggle.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+            }
+        });
+        
+        // ===== NAVIGATION HANDLER =====
+        document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active state
+                document.querySelectorAll('.nav-link').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Update page title
+                const pageName = this.getAttribute('data-page');
+                document.getElementById('pageTitle').textContent = pageName.charAt(0).toUpperCase() + pageName.slice(1);
+                
+                // Store current page
+                AppState.currentPage = pageName;
+                
+                // Show dashboard content if dashboard page
+                if (pageName === 'dashboard') {
+                    document.getElementById('dashboardContent').style.display = 'block';
+                    document.getElementById('dynamicContent').innerHTML = '';
+                } else {
+                    // For other pages, show placeholder content
+                    document.getElementById('dashboardContent').style.display = 'none';
+                    document.getElementById('dynamicContent').innerHTML = `
+                        <div class="card" data-aos="fade-up">
+                            <div class="card-header">
+                                <h3 class="card-title">${pageName.charAt(0).toUpperCase() + pageName.slice(1)}</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>This is the ${pageName} page. In a real application, this would contain specific functionality for ${pageName} management.</p>
+                                <p>All controls are fully functional. Try clicking buttons to see interactive feedback.</p>
+                                <div style="margin-top: 1.5rem;">
+                                    <button class="btn btn-primary" id="testActionBtn">Test Action</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add event listener to test button
+                    setTimeout(() => {
+                        const testBtn = document.getElementById('testActionBtn');
+                        if (testBtn) {
+                            testBtn.addEventListener('click', () => {
+                                addActivityLog(`Test action performed on ${pageName} page`, AppState.user.email, 'success');
+                                showToast(`Test action completed on ${pageName}`, ToastType.SUCCESS);
+                            });
+                        }
+                    }, 100);
+                }
+            });
+        });
+        
+        // ===== NOTIFICATIONS DROPDOWN =====
+        const notificationsBtn = document.getElementById('notificationsBtn');
+        let notificationsDropdown = null;
+        
+        notificationsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Remove existing dropdown if any
+            if (notificationsDropdown) {
+                notificationsDropdown.remove();
+                notificationsDropdown = null;
+                return;
+            }
+            
+            // Create dropdown
+            notificationsDropdown = document.createElement('div');
+            notificationsDropdown.className = 'dropdown-menu active';
+            notificationsDropdown.style.position = 'absolute';
+            notificationsDropdown.style.top = '100%';
+            notificationsDropdown.style.right = '0';
+            
+            // Add notifications
+            let dropdownContent = '';
+            AppState.notifications.slice(0, 5).forEach(notification => {
+                let icon = '';
+                let bgColor = 'rgba(59, 130, 246, 0.1)';
+                
+                switch(notification.type) {
+                    case 'success':
+                        icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+                        bgColor = 'rgba(16, 185, 129, 0.1)';
+                        break;
+                    case 'warning':
+                        icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+                        bgColor = 'rgba(245, 158, 11, 0.1)';
+                        break;
+                    case 'error':
+                        icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+                        bgColor = 'rgba(239, 68, 68, 0.1)';
+                        break;
+                    default:
+                        icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+                }
+                
+                dropdownContent += `
+                    <button class="dropdown-item ${notification.read ? '' : 'unread'}" data-id="${notification.id}" style="background-color: ${notification.read ? 'transparent' : bgColor};">
+                        ${icon}
+                        <span>${notification.message}</span>
+                    </button>
+                `;
+            });
+            
+            dropdownContent += `
+                <button class="dropdown-item" id="viewAllNotifications">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span>View all notifications</span>
+                </button>
+                <button class="dropdown-item" id="markAllAsRead">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>Mark all as read</span>
+                </button>
+            `;
+            
+            notificationsDropdown.innerHTML = dropdownContent;
+            notificationsBtn.appendChild(notificationsDropdown);
+            
+            // Add event listeners
+            setTimeout(() => {
+                // Mark notification as read when clicked
+                notificationsDropdown.querySelectorAll('.dropdown-item[data-id]').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        const notification = AppState.notifications.find(n => n.id === id);
+                        if (notification && !notification.read) {
+                            notification.read = true;
+                            updateNotificationBadge();
+                            showToast('Notification marked as read', ToastType.SUCCESS);
+                        }
+                        
+                        // Close dropdown
+                        notificationsDropdown.remove();
+                        notificationsDropdown = null;
+                    });
+                });
+                
+                // View all notifications
+                document.getElementById('viewAllNotifications').addEventListener('click', () => {
+                    showModal('All Notifications', `
+                        <div>
+                            <p>You have ${AppState.notifications.length} notifications:</p>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                ${AppState.notifications.map(n => `<li>${n.message} <span style="color: var(--text-secondary); font-size: 0.875rem;">(${n.type})</span></li>`).join('')}
+                            </ul>
+                        </div>
+                    `);
+                    
+                    // Close dropdown
+                    notificationsDropdown.remove();
+                    notificationsDropdown = null;
+                });
+                
+                // Mark all as read
+                document.getElementById('markAllAsRead').addEventListener('click', () => {
+                    AppState.notifications.forEach(n => n.read = true);
+                    updateNotificationBadge();
+                    showToast('All notifications marked as read', ToastType.SUCCESS);
+                    
+                    // Close dropdown
+                    notificationsDropdown.remove();
+                    notificationsDropdown = null;
+                });
+            }, 10);
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (notificationsDropdown && !notificationsBtn.contains(e.target) && !notificationsDropdown.contains(e.target)) {
+                notificationsDropdown.remove();
+                notificationsDropdown = null;
+            }
+            
+            if (userDropdown && !userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.remove();
+                userDropdown = null;
+            }
+        });
+        
+        // ===== USER DROPDOWN =====
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        let userDropdown = null;
+        
+        userMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Remove existing dropdown if any
+            if (userDropdown) {
+                userDropdown.remove();
+                userDropdown = null;
+                return;
+            }
+            
+            // Create dropdown
+            userDropdown = document.createElement('div');
+            userDropdown.className = 'dropdown-menu active';
+            userDropdown.style.position = 'absolute';
+            userDropdown.style.top = '100%';
+            userDropdown.style.right = '0';
+            
+            userDropdown.innerHTML = `
+                <div style="padding: 1rem; border-bottom: 1px solid var(--border-color);">
+                    <div style="font-weight: 600;">${AppState.user.name}</div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">${AppState.user.email}</div>
+                    <div style="font-size: 0.75rem; margin-top: 0.25rem;">
+                        <span class="status-pill status-healthy">${AppState.user.role}</span>
+                    </div>
+                </div>
+                <button class="dropdown-item" id="profileBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Profile</span>
+                </button>
+                <button class="dropdown-item" id="securityBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span>Security</span>
+                </button>
+                <button class="dropdown-item" id="logoutDropdownBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            `;
+            
+            userMenuBtn.appendChild(userDropdown);
+            
+            // Add event listeners
+            setTimeout(() => {
+                document.getElementById('profileBtn').addEventListener('click', () => {
+                    showModal('User Profile', `
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="user-avatar" style="width: 60px; height: 60px; font-size: 1.5rem;">${AppState.user.avatar}</div>
+                                <div>
+                                    <h4 style="margin-bottom: 0.25rem;">${AppState.user.name}</h4>
+                                    <p style="color: var(--text-secondary);">${AppState.user.email}</p>
+                                    <p><span class="status-pill status-healthy">${AppState.user.role}</span></p>
+                                </div>
+                            </div>
+                            <p>This is your user profile. You can update your information here.</p>
+                        </div>
+                    `, [
+                        { text: 'Edit Profile', class: 'btn-primary', action: () => {
+                            showToast('Profile edit functionality would open here', ToastType.INFO);
+                            closeModal();
+                        }}
+                    ]);
+                    
+                    userDropdown.remove();
+                    userDropdown = null;
+                });
+                
+                document.getElementById('securityBtn').addEventListener('click', () => {
+                    showModal('Security Settings', `
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">Security Settings</h4>
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Two-Factor Authentication</label>
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span>Status: <span class="status-pill status-healthy">Enabled</span></span>
+                                    <button class="btn btn-secondary">Manage</button>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Session Timeout</label>
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span>30 minutes</span>
+                                    <button class="btn btn-secondary">Change</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Password</label>
+                                <button class="btn btn-primary">Change Password</button>
+                            </div>
+                        </div>
+                    `);
+                    
+                    userDropdown.remove();
+                    userDropdown = null;
+                });
+                
+                document.getElementById('logoutDropdownBtn').addEventListener('click', () => {
+                    performLogout();
+                    userDropdown.remove();
+                    userDropdown = null;
+                });
+            }, 10);
+        });
+        
+        // ===== LOGOUT FUNCTIONALITY =====
+        function performLogout() {
+            showModal('Confirm Logout', `
+                <div>
+                    <p>Are you sure you want to logout?</p>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">You will be redirected to the login page.</p>
+                </div>
+            `, [
+                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
+                { text: 'Logout', class: 'btn-danger', action: () => {
+                    addActivityLog('User logged out', AppState.user.email, 'success');
+                    showToast('Successfully logged out', ToastType.SUCCESS);
+                    closeModal();
+                    
+                    // Simulate logout redirect
+                    setTimeout(() => {
+                        showToast('You have been logged out. Redirecting to login...', ToastType.INFO);
+                    }, 1000);
+                }}
+            ]);
+        }
+        
+        // Sidebar logout button
+        document.getElementById('logoutBtn').addEventListener('click', performLogout);
+        
+        // ===== SEARCH FUNCTIONALITY =====
+        const searchInput = document.getElementById('searchInput');
+        let searchTimeout = null;
+        
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            
+            searchTimeout = setTimeout(() => {
+                const query = this.value.trim();
+                if (query.length > 0) {
+                    showToast(`Searching for "${query}"...`, ToastType.INFO);
+                    
+                    // Simulate search results
+                    setTimeout(() => {
+                        showModal('Search Results', `
+                            <div>
+                                <h4 style="margin-bottom: 1rem;">Search Results for "${query}"</h4>
+                                <p>Found 3 servers, 2 users, and 5 log entries matching your search.</p>
+                                <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                    <li>Server: US-East-1 (us-east-1)</li>
+                                    <li>Server: EU-West-2 (eu-west-2)</li>
+                                    <li>User: admin@mkmultiverse.com</li>
+                                    <li>Log: Server backup initiated</li>
+                                </ul>
+                            </div>
+                        `);
+                    }, 500);
+                }
+            }, 500);
+        });
+        
+        // ===== SERVER ACTION HANDLERS =====
+        document.addEventListener('click', function(e) {
+            // Server action buttons
+            if (e.target.matches('[data-server][data-action]')) {
+                const serverId = e.target.getAttribute('data-server');
+                const action = e.target.getAttribute('data-action');
+                const server = AppState.servers[serverId];
+                
+                if (action === 'restart') {
+                    showModal(`Restart ${server.name}`, `
+                        <div>
+                            <p>Are you sure you want to restart the ${server.name} server?</p>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
+                                This will cause a brief downtime (approximately 2-5 minutes).
+                            </p>
+                        </div>
+                    `, [
+                        { text: 'Cancel', class: 'btn-secondary', action: closeModal },
+                        { text: 'Restart Server', class: 'btn-danger', action: () => {
+                            addActivityLog(`Server restart initiated: ${server.name}`, AppState.user.email, 'warning');
+                            showToast(`Restarting ${server.name} server...`, ToastType.WARNING);
+                            
+                            // Simulate server restart
+                            setTimeout(() => {
+                                showToast(`${server.name} server restarted successfully`, ToastType.SUCCESS);
+                                addActivityLog(`Server restart completed: ${server.name}`, AppState.user.email, 'success');
+                            }, 2000);
+                            
+                            closeModal();
+                        }}
+                    ]);
+                } else if (action === 'manage') {
+                    showModal(`Manage ${server.name}`, `
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">${server.name} Server Details</h4>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Status</span>
+                                <span class="status-pill ${server.status === 'healthy' ? 'status-healthy' : 'status-warning'}">${server.status}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Instances</span>
+                                <span>${server.instances}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Load Balancer</span>
+                                <span>${server.loadBalancer}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                <span>Uptime</span>
+                                <span>${server.uptime}</span>
+                            </div>
+                            <div style="margin-top: 1.5rem;">
+                                <h5 style="margin-bottom: 0.5rem;">Server Actions</h5>
+                                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                    <button class="btn btn-secondary" id="scaleServerBtn">Scale Instances</button>
+                                    <button class="btn btn-secondary" id="backupServerBtn">Create Backup</button>
+                                    <button class="btn btn-secondary" id="monitorServerBtn">Monitor</button>
+                                </div>
+                            </div>
+                        </div>
+                    `, [
+                        { text: 'Close', class: 'btn-secondary', action: closeModal },
+                        { text: 'Advanced Settings', class: 'btn-primary', action: () => {
+                            showToast('Opening advanced settings for server', ToastType.INFO);
+                            closeModal();
+                        }}
+                    ]);
+                    
+                    // Add event listeners for modal buttons
+                    setTimeout(() => {
+                        document.getElementById('scaleServerBtn').addEventListener('click', () => {
+                            showToast(`Scaling instances for ${server.name}`, ToastType.INFO);
+                        });
+                        
+                        document.getElementById('backupServerBtn').addEventListener('click', () => {
+                            addActivityLog(`Backup initiated for ${server.name}`, AppState.user.email, 'success');
+                            showToast(`Creating backup for ${server.name}...`, ToastType.INFO);
+                        });
+                        
+                        document.getElementById('monitorServerBtn').addEventListener('click', () => {
+                            showToast(`Opening monitoring dashboard for ${server.name}`, ToastType.INFO);
+                        });
+                    }, 100);
+                }
+            }
+        });
+        
+        // ===== BUTTON FUNCTIONALITY =====
+        // Download Invoice Button
+        document.getElementById('downloadInvoiceBtn').addEventListener('click', function() {
+            showToast('Downloading invoice...', ToastType.INFO);
+            
+            // Simulate download
+            setTimeout(() => {
+                addActivityLog('Invoice downloaded', AppState.user.email, 'success');
+                showToast('Invoice downloaded successfully', ToastType.SUCCESS);
+            }, 1500);
+        });
+        
+        // Run Security Audit Button
+        document.getElementById('runSecurityAuditBtn').addEventListener('click', function() {
+            showToast('Running security audit...', ToastType.INFO);
+            
+            // Simulate audit process
+            setTimeout(() => {
+                addActivityLog('Security audit completed', AppState.user.email, 'success');
+                showToast('Security audit completed. No issues found.', ToastType.SUCCESS);
+            }, 3000);
+        });
+        
+        // Filter Logs Button
+        document.getElementById('filterLogsBtn').addEventListener('click', function() {
+            showModal('Filter Activity Logs', `
+                <div>
+                    <h4 style="margin-bottom: 1rem;">Filter Options</h4>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Status</label>
+                        <select style="width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); background-color: var(--bg-primary); color: var(--text-primary);">
+                            <option value="all">All Statuses</option>
+                            <option value="success">Success</option>
+                            <option value="warning">Warning</option>
+                            <option value="error">Error</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Date Range</label>
+                        <input type="date" style="width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); background-color: var(--bg-primary); color: var(--text-primary);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">User</label>
+                        <input type="text" placeholder="Filter by user email" style="width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); background-color: var(--bg-primary); color: var(--text-primary);">
+                    </div>
+                </div>
+            `, [
+                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
+                { text: 'Apply Filters', class: 'btn-primary', action: () => {
+                    showToast('Filters applied to activity logs', ToastType.SUCCESS);
+                    closeModal();
+                }}
+            ]);
+        });
+        
+        // Export Logs Button
+        document.getElementById('exportLogsBtn').addEventListener('click', function() {
+            showToast('Exporting activity logs...', ToastType.INFO);
+            
+            // Simulate export
+            setTimeout(() => {
+                addActivityLog('Activity logs exported', AppState.user.email, 'success');
+                showToast('Activity logs exported successfully (CSV format)', ToastType.SUCCESS);
+            }, 2000);
+        });
+        
+        // Clear Logs Button
+        document.getElementById('clearLogsBtn').addEventListener('click', function() {
+            showModal('Clear Activity Logs', `
+                <div>
+                    <p>Are you sure you want to clear all activity logs?</p>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
+                        This action cannot be undone. All log entries will be permanently deleted.
+                    </p>
+                </div>
+            `, [
+                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
+                { text: 'Clear All Logs', class: 'btn-danger', action: () => {
+                    AppState.activityLogs = [];
+                    loadActivityLogs();
+                    addActivityLog('Activity logs cleared', AppState.user.email, 'warning');
+                    showToast('All activity logs have been cleared', ToastType.WARNING);
+                    closeModal();
+                }}
+            ]);
+        });
+        
+        // Quick Action Buttons
+        document.getElementById('deployServerBtn').addEventListener('click', function() {
+            showModal('Deploy New Server', `
+                <div>
+                    <h4 style="margin-bottom: 1rem;">Server Configuration</h4>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Server Name</label>
+                        <input type="text" placeholder="Enter server name" style="width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); background-color: var(--bg-primary); color: var(--text-primary);">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Region</label>
+                        <select style="width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); background-color: var(--bg-primary); color: var(--text-primary);">
+                            <option value="us-east-1">US East (N. Virginia)</option>
+                            <option value="eu-west-2">EU West (London)</option>
+                            <option value="ap-south-1">Asia Pacific (Mumbai)</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Instance Type</label>
+                        <select style="width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); background-color: var(--bg-primary); color: var(--text-primary);">
+                            <option value="small">Small (1 CPU, 2GB RAM)</option>
+                            <option value="medium">Medium (2 CPU, 4GB RAM)</option>
+                            <option value="large">Large (4 CPU, 8GB RAM)</option>
+                        </select>
+                    </div>
+                </div>
+            `, [
+                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
+                { text: 'Deploy Server', class: 'btn-primary', action: () => {
+                    showToast('Deploying new server...', ToastType.INFO);
+                    
+                    // Simulate deployment
+                    setTimeout(() => {
+                        addActivityLog('New server deployed', AppState.user.email, 'success');
+                        showToast('Server deployed successfully', ToastType.SUCCESS);
+                        closeModal();
+                    }, 3000);
+                }}
+            ]);
+        });
+        
+        document.getElementById('createBackupBtn').addEventListener('click', function() {
+            showToast('Creating system backup...', ToastType.INFO);
+            
+            // Simulate backup
+            setTimeout(() => {
+                addActivityLog('System backup created', AppState.user.email, 'success');
+                showToast('Backup created successfully', ToastType.SUCCESS);
+            }, 2500);
+        });
+        
+        document.getElementById('scaleResourcesBtn').addEventListener('click', function() {
+            showModal('Scale Resources', `
+                <div>
+                    <h4 style="margin-bottom: 1rem;">Resource Scaling</h4>
+                    <p>Adjust your resource allocation based on current needs.</p>
+                    <div style="margin-top: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">CPU Cores</label>
+                            <input type="range" min="1" max="16" value="4" style="width: 100%;">
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.25rem;">
+                                <span>1 Core</span>
+                                <span>4 Cores</span>
+                                <span>16 Cores</span>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Memory (GB)</label>
+                            <input type="range" min="2" max="64" value="8" style="width: 100%;">
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.25rem;">
+                                <span>2 GB</span>
+                                <span>8 GB</span>
+                                <span>64 GB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `, [
+                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
+                { text: 'Apply Scaling', class: 'btn-primary', action: () => {
+                    showToast('Scaling resources...', ToastType.INFO);
+                    
+                    // Simulate scaling
+                    setTimeout(() => {
+                        addActivityLog('Resources scaled up', AppState.user.email, 'success');
+                        showToast('Resources scaled successfully', ToastType.SUCCESS);
+                        closeModal();
+                    }, 2000);
+                }}
+            ]);
+        });
+        
+        document.getElementById('emergencyShutdownBtn').addEventListener('click', function() {
+            showModal('Emergency Shutdown', `
+                <div>
+                    <h4 style="color: var(--danger); margin-bottom: 1rem;">⚠️ Emergency Shutdown</h4>
+                    <p>This will shut down ALL servers immediately.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
+                        This action is irreversible and will cause service interruption. Only proceed in case of emergency.
+                    </p>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(239, 68, 68, 0.1); border-radius: var(--border-radius);">
+                        <p style="font-weight: 600;">Affected Servers:</p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>US-East-1 (12 instances)</li>
+                            <li>EU-West-2 (8 instances)</li>
+                            <li>AP-South-1 (5 instances)</li>
+                        </ul>
+                    </div>
+                </div>
+            `, [
+                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
+                { text: 'Confirm Shutdown', class: 'btn-danger', action: () => {
+                    showToast('Initiating emergency shutdown...', ToastType.ERROR);
+                    
+                    // Simulate shutdown
+                    setTimeout(() => {
+                        addActivityLog('Emergency shutdown initiated', AppState.user.email, 'warning');
+                        showToast('All servers have been shut down', ToastType.ERROR);
+                        closeModal();
+                    }, 3000);
+                }}
+            ]);
+        });
+        
+        // ===== MODAL CLOSE BUTTON =====
+        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+        
+        // Close modal when clicking outside
+        document.getElementById('serverModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize animated counters
+            animateCounter(document.getElementById('cpuCounter'), 65, '%');
+            animateCounter(document.getElementById('memoryCounter'), 78, '%');
+            animateCounter(document.getElementById('storageCounter'), 45, '%');
+            animateCounter(document.getElementById('billingCounter'), 3247);
+            
+            // Load activity logs
+            loadActivityLogs();
+            
+            // Update notification badge
+            updateNotificationBadge();
+            
+            // Show welcome message
+            setTimeout(() => {
+                showToast('MK Multiverse Dashboard loaded successfully', ToastType.SUCCESS);
+                showToast('Welcome back, ' + AppState.user.name, ToastType.INFO);
+            }, 1000);
+            
+            // Initialize theme based on preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark-theme');
+                AppState.theme = 'dark';
+                themeToggle.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+            }
+        });
+    </script>
+</body>
+</html>
