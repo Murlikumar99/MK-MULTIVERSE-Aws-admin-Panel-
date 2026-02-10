@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* ROOT VARIABLES */
         :root {
-            /* Color System */
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --primary-light: #dbeafe;
@@ -30,7 +30,6 @@
             --academy: #8B0000;
             --mod-apk: #FF6B00;
             
-            /* Neutral Colors */
             --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
@@ -42,19 +41,16 @@
             --gray-800: #1f2937;
             --gray-900: #111827;
             
-            /* Layout */
             --sidebar-width: 260px;
             --sidebar-collapsed: 70px;
             --topbar-height: 70px;
             --border-radius: 8px;
             --transition-speed: 0.3s;
             
-            /* Shadows */
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             
-            /* Theme */
             --bg-primary: #ffffff;
             --bg-secondary: #f8fafc;
             --bg-sidebar: #1e293b;
@@ -72,6 +68,7 @@
             --border-color: #374151;
         }
         
+        /* RESET & BASE */
         * {
             margin: 0;
             padding: 0;
@@ -92,7 +89,7 @@
             font-weight: 600;
         }
         
-        /* Login Screen */
+        /* LOGIN SCREEN */
         .login-screen {
             position: fixed;
             top: 0;
@@ -104,12 +101,10 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
         
         .login-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
+            display: none;
         }
         
         .login-container {
@@ -209,6 +204,10 @@
             cursor: pointer;
             transition: all var(--transition-speed);
             margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
         .login-btn:hover {
@@ -223,37 +222,7 @@
             font-size: 0.9rem;
         }
         
-        /* Network Status Indicator */
-        .network-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--danger);
-            color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            z-index: 10000;
-            box-shadow: var(--shadow-lg);
-            transform: translateX(150%);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-        
-        .network-status.show {
-            transform: translateX(0);
-        }
-        
-        .network-status.connected {
-            background: var(--success);
-        }
-        
-        .network-status.warning {
-            background: var(--warning);
-        }
-        
-        /* Loading Animation */
+        /* LOADING OVERLAY */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -266,6 +235,8 @@
             justify-content: center;
             align-items: center;
             z-index: 10001;
+            opacity: 1;
+            visibility: visible;
             transition: opacity 0.5s ease;
         }
         
@@ -295,37 +266,7 @@
             margin-bottom: 0.5rem;
         }
         
-        .loading-dots {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .loading-dots span {
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-        
-        .loading-dots span:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-        
-        .loading-dots span:nth-child(2) {
-            animation-delay: -0.16s;
-        }
-        
-        @keyframes bounce {
-            0%, 80%, 100% { 
-                transform: scale(0);
-            } 
-            40% { 
-                transform: scale(1.0);
-            }
-        }
-        
-        /* Layout Structure */
+        /* APP LAYOUT */
         .app-container {
             display: flex;
             min-height: 100vh;
@@ -339,7 +280,7 @@
             transform: translateY(0);
         }
         
-        /* Sidebar Styles */
+        /* SIDEBAR */
         .sidebar {
             width: var(--sidebar-width);
             background-color: var(--bg-sidebar);
@@ -385,87 +326,6 @@
             border-radius: 8px;
         }
         
-        .logo-text {
-            transition: opacity var(--transition-speed);
-        }
-        
-        .sidebar.collapsed .logo-text {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-        }
-        
-        .sidebar-nav {
-            padding: 1rem 0;
-            flex-grow: 1;
-        }
-        
-        .nav-section {
-            margin-bottom: 1.5rem;
-        }
-        
-        .nav-section-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(255, 255, 255, 0.5);
-            padding: 0 1.5rem;
-            margin-bottom: 0.5rem;
-            transition: opacity var(--transition-speed);
-        }
-        
-        .sidebar.collapsed .nav-section-title {
-            opacity: 0;
-            height: 0;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: all var(--transition-speed);
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .nav-link.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background-color: var(--primary);
-        }
-        
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-        
-        .nav-text {
-            transition: opacity var(--transition-speed);
-            white-space: nowrap;
-        }
-        
-        .sidebar.collapsed .nav-text {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-        }
-        
         .sidebar-toggle {
             background: none;
             border: none;
@@ -478,11 +338,7 @@
             justify-content: center;
         }
         
-        .sidebar-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Main Content */
+        /* MAIN CONTENT */
         .main-content {
             flex-grow: 1;
             margin-left: var(--sidebar-width);
@@ -496,7 +352,7 @@
             margin-left: var(--sidebar-collapsed);
         }
         
-        /* Top Navbar */
+        /* TOPBAR */
         .topbar {
             height: var(--topbar-height);
             background-color: var(--bg-primary);
@@ -510,33 +366,9 @@
             z-index: 50;
         }
         
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
         .page-title {
             font-size: 1.5rem;
             font-weight: 600;
-        }
-        
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            padding: 0.5rem 1rem;
-            width: 300px;
-        }
-        
-        .search-bar input {
-            border: none;
-            background: none;
-            outline: none;
-            width: 100%;
-            color: var(--text-primary);
-            margin-left: 0.5rem;
         }
         
         .topbar-right {
@@ -545,7 +377,7 @@
             gap: 1.5rem;
         }
         
-        .theme-toggle, .notifications-btn, .user-menu-btn {
+        .theme-toggle, .user-menu-btn {
             background: none;
             border: none;
             color: var(--text-primary);
@@ -556,26 +388,6 @@
             padding: 0.5rem;
             border-radius: var(--border-radius);
             transition: background-color var(--transition-speed);
-            position: relative;
-        }
-        
-        .theme-toggle:hover, .notifications-btn:hover, .user-menu-btn:hover {
-            background-color: var(--bg-secondary);
-        }
-        
-        .notifications-badge {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            background-color: var(--danger);
-            color: white;
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .user-avatar {
@@ -591,77 +403,20 @@
             margin-right: 0.5rem;
         }
         
-        /* Dropdown Menu */
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: var(--bg-primary);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            min-width: 200px;
-            z-index: 1000;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: opacity var(--transition-speed), transform var(--transition-speed), visibility var(--transition-speed);
-        }
-        
-        .dropdown-menu.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: background-color var(--transition-speed);
-            cursor: pointer;
-            border: none;
-            width: 100%;
-            text-align: left;
-            background: none;
-            font-family: inherit;
-            font-size: inherit;
-        }
-        
-        .dropdown-item:hover {
-            background-color: var(--bg-secondary);
-        }
-        
-        /* Content Area */
+        /* CONTENT AREA */
         .content-area {
             padding: 2rem;
             flex-grow: 1;
         }
         
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        /* Cards */
+        /* CARDS */
         .card {
             background-color: var(--bg-primary);
             border-radius: var(--border-radius);
             border: 1px solid var(--border-color);
             overflow: hidden;
             transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        }
-        
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
+            margin-bottom: 1.5rem;
         }
         
         .card-header {
@@ -681,140 +436,7 @@
             padding: 1.5rem;
         }
         
-        /* Status Indicators */
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.375rem;
-            padding: 0.375rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-        
-        .status-healthy {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-        
-        .status-warning {
-            background-color: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-        }
-        
-        .status-down {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-        
-        .status-academy {
-            background-color: rgba(139, 0, 0, 0.1);
-            color: var(--academy);
-        }
-        
-        .status-mod {
-            background-color: rgba(255, 107, 0, 0.1);
-            color: var(--mod-apk);
-        }
-        
-        /* Progress Bars */
-        .progress-bar {
-            height: 8px;
-            background-color: var(--bg-secondary);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 1s ease-in-out;
-        }
-        
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-width: 400px;
-        }
-        
-        .toast {
-            padding: 1rem 1.25rem;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            box-shadow: var(--shadow-lg);
-            transform: translateX(100%);
-            opacity: 0;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        }
-        
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        
-        .toast-success {
-            background-color: rgba(16, 185, 129, 0.1);
-            border-left: 4px solid var(--success);
-            color: var(--text-primary);
-        }
-        
-        .toast-error {
-            background-color: rgba(239, 68, 68, 0.1);
-            border-left: 4px solid var(--danger);
-            color: var(--text-primary);
-        }
-        
-        .toast-warning {
-            background-color: rgba(245, 158, 11, 0.1);
-            border-left: 4px solid var(--warning);
-            color: var(--text-primary);
-        }
-        
-        .toast-info {
-            background-color: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid var(--info);
-            color: var(--text-primary);
-        }
-        
-        /* Tables */
-        .table-container {
-            overflow-x: auto;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th {
-            background-color: var(--bg-secondary);
-            padding: 0.875rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.875rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
-        /* Buttons */
+        /* BUTTONS */
         .btn {
             padding: 0.5rem 1rem;
             border-radius: var(--border-radius);
@@ -837,312 +459,7 @@
             background-color: var(--primary-dark);
         }
         
-        .btn-secondary {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-        
-        .btn-secondary:hover {
-            background-color: var(--gray-200);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
-        
-        .btn-academy {
-            background-color: var(--academy);
-            color: white;
-        }
-        
-        .btn-academy:hover {
-            background-color: #6b0000;
-        }
-        
-        .btn-mod {
-            background-color: var(--mod-apk);
-            color: white;
-        }
-        
-        .btn-mod:hover {
-            background-color: #e55a00;
-        }
-        
-        /* Server Actions */
-        .server-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition-speed), visibility var(--transition-speed);
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal {
-            background-color: var(--bg-primary);
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-20px);
-            transition: transform var(--transition-speed);
-        }
-        
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-        
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .modal-body {
-            padding: 1.5rem;
-        }
-        
-        .modal-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.75rem;
-        }
-        
-        /* Server Request Page Styles */
-        .server-request-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        @media (max-width: 1024px) {
-            .server-request-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .request-form-card {
-            border-left: 4px solid var(--academy);
-        }
-        
-        .mod-request-form-card {
-            border-left: 4px solid var(--mod-apk);
-        }
-        
-        .request-list-card {
-            grid-column: span 2;
-        }
-        
-        @media (max-width: 1024px) {
-            .request-list-card {
-                grid-column: span 1;
-            }
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: border-color var(--transition-speed);
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        /* Request List Styles */
-        .request-item {
-            padding: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        }
-        
-        .request-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .request-item.academy-request {
-            border-left: 4px solid var(--academy);
-        }
-        
-        .request-item.mod-request {
-            border-left: 4px solid var(--mod-apk);
-        }
-        
-        .request-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
-        }
-        
-        .request-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-        }
-        
-        .request-type {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .request-details {
-            margin-bottom: 0.75rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        .request-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        .request-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        /* Academy Badge */
-        .academy-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, #8B0000, #FF0000);
-            color: white;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        /* Mod APK Badge */
-        .mod-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, #FF6B00, #FF9500);
-            color: white;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        /* Password Manager Section */
-        .password-manager {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.1));
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-        }
-        
-        .password-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .password-item {
-            padding: 1rem;
-            background-color: var(--bg-primary);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-        }
-        
-        .password-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .password-name {
-            font-weight: 600;
-        }
-        
-        .password-value {
-            font-family: monospace;
-            padding: 0.5rem;
-            background-color: var(--bg-secondary);
-            border-radius: 4px;
-            margin-top: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* Footer */
+        /* FOOTER */
         .footer {
             padding: 2rem;
             background-color: var(--bg-secondary);
@@ -1153,35 +470,8 @@
             margin-top: auto;
         }
         
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Animation Classes */
-        @keyframes countUp {
-            from { 
-                content: "0"; 
-            }
-        }
-        
-        .counter {
-            font-variant-numeric: tabular-nums;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 1024px) {
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
             .sidebar {
                 width: var(--sidebar-collapsed);
             }
@@ -1190,48 +480,18 @@
                 margin-left: var(--sidebar-collapsed);
             }
             
-            .sidebar .nav-text,
-            .sidebar .logo-text,
-            .sidebar .nav-section-title {
-                opacity: 0;
-                width: 0;
-                overflow: hidden;
-            }
-        }
-        
-        @media (max-width: 768px) {
             .topbar {
                 padding: 0 1rem;
-            }
-            
-            .search-bar {
-                width: 200px;
             }
             
             .content-area {
                 padding: 1rem;
             }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .server-request-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- ===== LOGIN SCREEN ===== -->
+    <!-- LOGIN SCREEN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <div class="login-logo">
@@ -1246,45 +506,42 @@
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" placeholder="Enter your username" required>
+                    <div class="error-message" id="usernameError" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; display: none;"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" placeholder="Enter your password" required>
+                    <div class="error-message" id="passwordError" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; display: none;"></div>
                 </div>
                 
-                <button type="submit" class="login-btn">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe" style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Remember me</label>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginBtn">
                     <span id="loginBtnText">Login to Dashboard</span>
                     <i class="fas fa-spinner fa-spin" id="loginSpinner" style="display: none;"></i>
                 </button>
             </form>
             
             <div class="login-footer">
-                <p>Developed by MK Multiverse Team</p>
+                <p style="margin-bottom: 0.5rem;">Default Credentials:</p>
+                <p style="font-size: 0.8rem; opacity: 0.8;">Username: admin | Password: admin123</p>
             </div>
         </div>
     </div>
     
-    <!-- ===== LOADING OVERLAY ===== -->
+    <!-- LOADING OVERLAY -->
     <div class="loading-overlay hidden" id="loadingOverlay">
         <div class="loading-spinner"></div>
         <div class="loading-text" id="loadingText">Loading Dashboard</div>
-        <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
     </div>
     
-    <!-- ===== NETWORK STATUS INDICATOR ===== -->
-    <div class="network-status" id="networkStatus">
-        <i class="fas fa-wifi" id="networkIcon"></i>
-        <span id="networkMessage">No internet connection</span>
-    </div>
-    
-    <!-- ===== MAIN APP ===== -->
-    <div class="app-container" id="appContainer">
-        <!-- ===== SIDEBAR ===== -->
+    <!-- MAIN APP -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <a href="#" class="logo">
@@ -1299,82 +556,37 @@
             </div>
             
             <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">Main</div>
-                    <a href="#dashboard" class="nav-link active" data-page="dashboard">
-                        <i class="fas fa-th-large nav-icon"></i>
-                        <span class="nav-text">Dashboard</span>
+                <div style="padding: 1rem 0;">
+                    <a href="#dashboard" class="nav-link active" data-page="dashboard" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: all 0.3s;">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
                     </a>
-                    <a href="#servers" class="nav-link" data-page="servers">
-                        <i class="fas fa-server nav-icon"></i>
-                        <span class="nav-text">Servers</span>
+                    <a href="#servers" class="nav-link" data-page="servers" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: all 0.3s;">
+                        <i class="fas fa-server"></i>
+                        <span>Servers</span>
                     </a>
-                    <a href="#analytics" class="nav-link" data-page="analytics">
-                        <i class="fas fa-chart-bar nav-icon"></i>
-                        <span class="nav-text">Analytics</span>
+                    <a href="#server-requests" class="nav-link" data-page="serverRequests" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: all 0.3s;">
+                        <i class="fas fa-code-branch"></i>
+                        <span>Server Requests</span>
                     </a>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-section-title">Server Requests</div>
-                    <a href="#server-requests" class="nav-link" data-page="serverRequests">
-                        <i class="fas fa-code-branch nav-icon"></i>
-                        <span class="nav-text">Server Requests</span>
+                    <a href="#passwords" class="nav-link" data-page="passwords" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: all 0.3s;">
+                        <i class="fas fa-key"></i>
+                        <span>Passwords</span>
                     </a>
-                    <a href="#passwords" class="nav-link" data-page="passwords">
-                        <i class="fas fa-key nav-icon"></i>
-                        <span class="nav-text">Passwords</span>
-                    </a>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-section-title">Security & Access</div>
-                    <a href="#security" class="nav-link" data-page="security">
-                        <i class="fas fa-shield-alt nav-icon"></i>
-                        <span class="nav-text">Security</span>
-                    </a>
-                    <a href="#users" class="nav-link" data-page="users">
-                        <i class="fas fa-users nav-icon"></i>
-                        <span class="nav-text">Users</span>
-                    </a>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-section-title">Billing & Support</div>
-                    <a href="#billing" class="nav-link" data-page="billing">
-                        <i class="fas fa-credit-card nav-icon"></i>
-                        <span class="nav-text">Billing</span>
-                    </a>
-                    <a href="#support" class="nav-link" data-page="support">
-                        <i class="fas fa-headset nav-icon"></i>
-                        <span class="nav-text">Support</span>
-                    </a>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-section-title">System</div>
-                    <a href="#settings" class="nav-link" data-page="settings">
-                        <i class="fas fa-cog nav-icon"></i>
-                        <span class="nav-text">Settings</span>
-                    </a>
-                    <button class="nav-link" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt nav-icon"></i>
-                        <span class="nav-text">Logout</span>
+                    <button class="nav-link" id="logoutBtn" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: all 0.3s; background: none; border: none; width: 100%; text-align: left; font-family: inherit; font-size: inherit;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
                     </button>
                 </div>
             </nav>
         </aside>
         
-        <!-- ===== MAIN CONTENT ===== -->
+        <!-- MAIN CONTENT -->
         <main class="main-content">
-            <!-- ===== TOPBAR ===== -->
+            <!-- TOPBAR -->
             <header class="topbar">
-                <div class="topbar-left">
+                <div style="display: flex; align-items: center; gap: 1rem;">
                     <h1 class="page-title" id="pageTitle">Dashboard</h1>
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search servers, users, logs...">
-                    </div>
                 </div>
                 
                 <div class="topbar-right">
@@ -1382,419 +594,101 @@
                         <i class="fas fa-sun"></i>
                     </button>
                     
-                    <button class="notifications-btn" id="notificationsBtn">
-                        <i class="fas fa-bell"></i>
-                        <span class="notifications-badge" id="notificationBadge">5</span>
-                    </button>
-                    
                     <button class="user-menu-btn" id="userMenuBtn">
-                        <div class="user-avatar">MK</div>
+                        <div class="user-avatar">AD</div>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                 </div>
             </header>
             
-            <!-- ===== CONTENT AREA ===== -->
+            <!-- CONTENT AREA -->
             <div class="content-area" id="contentArea">
-                <!-- Toast Notifications Container -->
-                <div class="toast-container" id="toastContainer"></div>
-                
-                <!-- Dashboard Content (default view) -->
                 <div id="dashboardContent">
-                    <!-- Dashboard Overview -->
-                    <div class="dashboard-grid">
-                        <!-- Resource Usage Card -->
-                        <div class="card" data-aos="fade-up">
-                            <div class="card-header">
-                                <h3 class="card-title">Resource Usage</h3>
-                                <span class="status-pill status-healthy">Optimal</span>
-                            </div>
-                            <div class="card-body">
-                                <div class="resource-item">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                        <span>CPU Utilization</span>
-                                        <span class="counter" id="cpuCounter">0%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="cpuProgress" style="width: 65%; background-color: var(--success);"></div>
-                                    </div>
-                                </div>
-                                <div class="resource-item" style="margin-top: 1rem;">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                        <span>Memory Usage</span>
-                                        <span class="counter" id="memoryCounter">0%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="memoryProgress" style="width: 78%; background-color: var(--warning);"></div>
-                                    </div>
-                                </div>
-                                <div class="resource-item" style="margin-top: 1rem;">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                        <span>Storage</span>
-                                        <span class="counter" id="storageCounter">0%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="storageProgress" style="width: 45%; background-color: var(--success);"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Billing Overview Card -->
-                        <div class="card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="card-header">
-                                <h3 class="card-title">Billing Overview</h3>
-                                <span class="status-pill status-healthy">Current</span>
-                            </div>
-                            <div class="card-body">
-                                <div style="text-align: center; margin-bottom: 1.5rem;">
-                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">
-                                        $<span class="counter" id="billingCounter">0</span>
-                                    </div>
-                                    <div style="color: var(--text-secondary); font-size: 0.875rem;">Estimated Monthly Cost</div>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-                                    <span>Compute Hours</span>
-                                    <span>1,240 hrs</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-                                    <span>Storage Used</span>
-                                    <span>2.4 TB</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-                                    <span>Bandwidth</span>
-                                    <span>45.2 GB</span>
-                                </div>
-                                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="downloadInvoiceBtn">
-                                    <i class="fas fa-download"></i>
-                                    Download Invoice
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Server Requests Overview -->
-                        <div class="card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="card-header">
-                                <h3 class="card-title">Server Requests</h3>
-                                <span class="status-pill status-warning">Pending</span>
-                            </div>
-                            <div class="card-body">
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                        <div class="academy-badge" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
-                                            <i class="fas fa-graduation-cap"></i>
-                                            Academy
-                                        </div>
-                                        <span>Pending: <strong>8</strong></span>
-                                    </div>
-                                </div>
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                        <div class="mod-badge" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
-                                            <i class="fas fa-robot"></i>
-                                            Mod APK
-                                        </div>
-                                        <span>Pending: <strong>12</strong></span>
-                                    </div>
-                                </div>
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                        <div style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
-                                        <span>Completed</span>
-                                    </div>
-                                    <span>24</span>
-                                </div>
-                                <div class="server-actions">
-                                    <button class="btn btn-academy" id="viewAcademyRequestsBtn" style="flex: 1;">
-                                        <i class="fas fa-graduation-cap"></i>
-                                        Academy Requests
-                                    </button>
-                                    <button class="btn btn-mod" id="viewModRequestsBtn" style="flex: 1;">
-                                        <i class="fas fa-robot"></i>
-                                        Mod APK Requests
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="card" data-aos="fade-up">
+                    <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Quick Actions</h3>
+                            <h3 class="card-title">Welcome to MK Multiverse Dashboard</h3>
                         </div>
                         <div class="card-body">
-                            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <p>Manage your enterprise cloud resources, server requests, and passwords in one place.</p>
+                            <div style="margin-top: 1.5rem;">
                                 <button class="btn btn-primary" id="deployServerBtn">
                                     <i class="fas fa-plus"></i>
                                     Deploy New Server
                                 </button>
-                                <button class="btn btn-secondary" id="createBackupBtn">
-                                    <i class="fas fa-save"></i>
-                                    Create Backup
-                                </button>
-                                <button class="btn btn-secondary" id="scaleResourcesBtn">
-                                    <i class="fas fa-expand-arrows-alt"></i>
-                                    Scale Resources
-                                </button>
-                                <button class="btn btn-danger" id="emergencyShutdownBtn">
-                                    <i class="fas fa-power-off"></i>
-                                    Emergency Shutdown
-                                </button>
-                                <button class="btn btn-academy" id="newAcademyRequestBtn">
-                                    <i class="fas fa-graduation-cap"></i>
-                                    New Academy Request
-                                </button>
-                                <button class="btn btn-mod" id="newModRequestBtn">
-                                    <i class="fas fa-robot"></i>
-                                    New Mod APK Request
-                                </button>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Recent Server Requests -->
-                    <div class="card" style="margin-top: 2rem;" data-aos="fade-up">
+                    <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Recent Server Requests</h3>
-                            <button class="btn btn-secondary" id="viewAllRequestsBtn">
-                                View All
-                            </button>
+                            <h3 class="card-title">Quick Stats</h3>
                         </div>
                         <div class="card-body">
-                            <div id="recentRequestsList">
-                                <!-- Recent requests will be loaded here -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                                <div style="text-align: center; padding: 1rem; background: var(--bg-secondary); border-radius: var(--border-radius);">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">12</div>
+                                    <div style="color: var(--text-secondary);">Active Servers</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem; background: var(--bg-secondary); border-radius: var(--border-radius);">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--academy);">8</div>
+                                    <div style="color: var(--text-secondary);">Academy Requests</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem; background: var(--bg-secondary); border-radius: var(--border-radius);">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--mod-apk);">15</div>
+                                    <div style="color: var(--text-secondary);">Mod APK Requests</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Other page content will be loaded here dynamically -->
-                <div id="dynamicContent"></div>
             </div>
             
-            <!-- ===== MODALS ===== -->
-            <!-- Server Management Modal -->
-            <div class="modal-overlay" id="serverModal">
-                <div class="modal">
-                    <div class="modal-header">
-                        <h3 id="modalTitle">Manage Server</h3>
-                        <button class="btn btn-secondary" id="closeModalBtn">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="modalBody">
-                        <!-- Dynamic content will be loaded here -->
-                    </div>
-                    <div class="modal-footer" id="modalFooter">
-                        <!-- Dynamic buttons will be loaded here -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- ===== FOOTER ===== -->
+            <!-- FOOTER -->
             <footer class="footer">
-                <div class="footer-content">
-                    <div class="footer-logo">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; margin-bottom: 0.5rem;">
                         <i class="fas fa-cloud"></i>
                         <span>MK Multiverse</span>
                     </div>
-                    <div>Developed by MK Multiverse Team</div>
-                    <div>Managed by Murli Kumar</div>
+                    <div>Enterprise Cloud Dashboard</div>
                     <div style="margin-top: 0.5rem; font-size: 0.75rem;">
-                        <span id="connectionStatus">Connection: Stable</span> | 
-                        <span id="serverStatus">Server: Online</span>
+                        Developed by MK Multiverse Team
                     </div>
                 </div>
             </footer>
         </main>
     </div>
-    
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <script>
-        // ===== APPLICATION STATE =====
-        const AppState = {
-            currentPage: 'dashboard',
-            notifications: [
-                { id: 1, type: 'success', message: 'Server backup completed', read: false },
-                { id: 2, type: 'warning', message: 'High CPU usage detected', read: false },
-                { id: 3, type: 'info', message: 'New academy request received', read: false },
-                { id: 4, type: 'info', message: 'Mod APK request approved', read: true },
-                { id: 5, type: 'success', message: 'New user registered', read: true },
-                { id: 6, type: 'info', message: 'Password database updated', read: false }
-            ],
-            activityLogs: [
-                { id: 1, timestamp: '2023-10-15 14:32:10', action: 'Server backup initiated', user: 'admin@mkmultiverse.com', status: 'success' },
-                { id: 2, timestamp: '2023-10-15 13:45:22', action: 'User role updated', user: 'security@mkmultiverse.com', status: 'success' },
-                { id: 3, timestamp: '2023-10-15 11:20:15', action: 'Academy server request submitted', user: 'chil@ratnakhan.com', status: 'academy' },
-                { id: 4, timestamp: '2023-10-15 09:15:05', action: 'Mod APK request approved', user: 'moduser@request.com', status: 'mod' },
-                { id: 5, timestamp: '2023-10-14 22:10:33', action: 'Security audit completed', user: 'audit@mkmultiverse.com', status: 'success' }
-            ],
-            serverRequests: [
-                { 
-                    id: 1, 
-                    type: 'academy', 
-                    title: 'Chil Ratna Khan Sir Academy - Main Server', 
-                    description: 'Request for dedicated server for online classes and student portal',
-                    requester: 'Chil Ratna Khan', 
-                    email: 'chil@ratnakhan.com',
-                    priority: 'high',
-                    status: 'pending',
-                    date: '2023-10-15',
-                    estimatedCost: '$450/month',
-                    requirements: '8 CPU, 16GB RAM, 500GB SSD, 100GB bandwidth'
-                },
-                { 
-                    id: 2, 
-                    type: 'mod-apk', 
-                    title: 'PUBG Mobile Mod APK Server', 
-                    description: 'Server for hosting modified APK files with unlimited UC and features',
-                    requester: 'Mod APK Team', 
-                    email: 'mod@apkhost.com',
-                    priority: 'medium',
-                    status: 'approved',
-                    date: '2023-10-14',
-                    estimatedCost: '$320/month',
-                    requirements: '4 CPU, 8GB RAM, 1TB SSD, Unlimited bandwidth'
-                },
-                { 
-                    id: 3, 
-                    type: 'academy', 
-                    title: 'Exam Portal Server', 
-                    description: 'Server for hosting online exams and test series',
-                    requester: 'Exam Department', 
-                    email: 'exams@ratnakhan.com',
-                    priority: 'high',
-                    status: 'in-progress',
-                    date: '2023-10-13',
-                    estimatedCost: '$280/month',
-                    requirements: '4 CPU, 8GB RAM, 250GB SSD, 50GB bandwidth'
-                },
-                { 
-                    id: 4, 
-                    type: 'mod-apk', 
-                    title: 'Free Fire Max Mod Server', 
-                    description: 'Server for Free Fire Max modded APK with diamond hack',
-                    requester: 'Gaming Mods', 
-                    email: 'gaming@mods.com',
-                    priority: 'low',
-                    status: 'pending',
-                    date: '2023-10-12',
-                    estimatedCost: '$180/month',
-                    requirements: '2 CPU, 4GB RAM, 100GB SSD, Unlimited bandwidth'
-                },
-                { 
-                    id: 5, 
-                    type: 'academy', 
-                    title: 'Video Streaming Server', 
-                    description: 'Server for streaming recorded lectures and tutorials',
-                    requester: 'Media Team', 
-                    email: 'media@ratnakhan.com',
-                    priority: 'medium',
-                    status: 'completed',
-                    date: '2023-10-10',
-                    estimatedCost: '$380/month',
-                    requirements: '6 CPU, 12GB RAM, 2TB SSD, 200GB bandwidth'
-                }
-            ],
-            passwords: [
-                {
-                    id: 1,
-                    name: 'Chil Ratna Khan Academy Admin',
-                    username: 'admin@ratnakhanacademy.com',
-                    password: 'Chil@Ratna2023',
-                    category: 'academy',
-                    notes: 'Main admin account for academy portal'
-                },
-                {
-                    id: 2,
-                    name: 'Mod APK FTP Server',
-                    username: 'ftp_modapk',
-                    password: 'Mod@APK#Secure987',
-                    category: 'mod-apk',
-                    notes: 'FTP server for APK file uploads'
-                },
-                {
-                    id: 3,
-                    name: 'Database Root',
-                    username: 'root',
-                    password: 'DB@Root#Secure456',
-                    category: 'database',
-                    notes: 'MySQL root password - DO NOT SHARE'
-                },
-                {
-                    id: 4,
-                    name: 'SSH Access',
-                    username: 'ubuntu',
-                    password: 'SSH@Access#789',
-                    category: 'server',
-                    notes: 'SSH access to all servers'
-                },
-                {
-                    id: 5,
-                    name: 'Payment Gateway',
-                    username: 'payment@ratnakhan.com',
-                    password: 'Pay@Gate$2023',
-                    category: 'academy',
-                    notes: 'Razorpay integration credentials'
-                }
-            ],
-            servers: {
-                'us-east-1': { name: 'US-East-1', instances: 12, status: 'healthy', loadBalancer: 'active', uptime: '99.95%' },
-                'eu-west-2': { name: 'EU-West-2', instances: 8, status: 'healthy', loadBalancer: 'active', uptime: '99.98%' },
-                'ap-south-1': { name: 'AP-South-1', instances: 5, status: 'warning', loadBalancer: 'degraded', uptime: '97.32%' }
-            },
-            user: {
-                name: 'Murli Kumar',
-                email: 'admin@mkmultiverse.com',
-                role: 'admin',
-                avatar: 'MK'
-            },
-            theme: 'light',
-            isLoggedIn: false,
-            networkStatus: 'online',
-            settings: {
-                theme: 'auto',
-                notifications: true,
-                autoBackup: true,
-                emailAlerts: true,
-                twoFactorAuth: false,
-                sessionTimeout: 30,
-                dataRefreshRate: 30
-            }
-        };
-        
-        // ===== INITIALIZATION =====
+        // SIMPLE AUTHENTICATION SYSTEM
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize AOS animations
-            AOS.init({
-                duration: 600,
-                once: true,
-                offset: 100
-            });
+            console.log('DOM loaded, initializing application...');
             
-            // Check login status
+            // Initialize AOS animations
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 600,
+                    once: true
+                });
+            }
+            
+            // Check if user is already logged in
             checkLoginStatus();
             
-            // Initialize network monitoring
-            initNetworkMonitoring();
+            // Setup event listeners
+            setupEventListeners();
             
-            // Initialize all event listeners
-            initEventListeners();
-            
-            // Load recent requests for dashboard
-            loadRecentRequests();
+            // Initialize theme
+            initTheme();
         });
         
-        // ===== LOGIN FUNCTIONALITY =====
         function checkLoginStatus() {
-            const isLoggedIn = localStorage.getItem('mkMultiverseLoggedIn') === 'true';
+            const isLoggedIn = localStorage.getItem('mkLoggedIn') === 'true';
+            const savedUsername = localStorage.getItem('mkUsername');
             
-            if (isLoggedIn) {
+            if (isLoggedIn && savedUsername) {
                 // User is logged in, show dashboard
-                showDashboard();
+                showDashboard(savedUsername);
             } else {
                 // Show login screen
                 showLoginScreen();
@@ -1802,1685 +696,384 @@
         }
         
         function showLoginScreen() {
+            console.log('Showing login screen');
             const loginScreen = document.getElementById('loginScreen');
-            loginScreen.classList.remove('hidden');
+            const appContainer = document.getElementById('appContainer');
             
-            // Add login form submission
-            const loginForm = document.getElementById('loginForm');
-            loginForm.addEventListener('submit', handleLogin);
+            if (loginScreen) loginScreen.classList.remove('hidden');
+            if (appContainer) appContainer.style.display = 'none';
+            
+            // Focus on username field
+            setTimeout(() => {
+                const usernameField = document.getElementById('username');
+                if (usernameField) usernameField.focus();
+            }, 100);
         }
         
-        function handleLogin(e) {
-            e.preventDefault();
+        function hideLoginScreen() {
+            console.log('Hiding login screen');
+            const loginScreen = document.getElementById('loginScreen');
+            if (loginScreen) loginScreen.classList.add('hidden');
+        }
+        
+        function showDashboard(username) {
+            console.log('Showing dashboard for user:', username);
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const loginBtnText = document.getElementById('loginBtnText');
-            const loginSpinner = document.getElementById('loginSpinner');
+            // Hide login screen
+            hideLoginScreen();
             
-            // Show loading state
-            loginBtnText.textContent = 'Authenticating...';
-            loginSpinner.style.display = 'inline-block';
+            // Show loading overlay
+            showLoadingOverlay('Loading Dashboard...');
             
-            // Simulate API call with delay
+            // After delay, show dashboard
             setTimeout(() => {
-                // Default credentials
-                const defaultUsername = 'admin';
-                const defaultPassword = 'admin123';
+                const appContainer = document.getElementById('appContainer');
+                const loadingOverlay = document.getElementById('loadingOverlay');
                 
-                if (username === defaultUsername && password === defaultPassword) {
-                    // Successful login
-                    localStorage.setItem('mkMultiverseLoggedIn', 'true');
-                    localStorage.setItem('mkMultiverseUser', username);
-                    
-                    // Hide login screen with animation
-                    const loginScreen = document.getElementById('loginScreen');
-                    loginScreen.classList.add('hidden');
-                    
-                    // Show loading overlay
-                    showLoadingOverlay('Loading Dashboard...');
-                    
-                    // Show dashboard after delay
+                // Hide loading overlay
+                if (loadingOverlay) loadingOverlay.classList.add('hidden');
+                
+                // Show app container with animation
+                if (appContainer) {
+                    appContainer.style.display = 'flex';
                     setTimeout(() => {
-                        hideLoadingOverlay();
-                        showDashboard();
-                        showToast('Welcome back, ' + username + '!', ToastType.SUCCESS);
-                    }, 1500);
-                } else {
-                    // Failed login
-                    showToast('Invalid credentials. Please try again.', ToastType.ERROR);
-                    loginBtnText.textContent = 'Login to Dashboard';
-                    loginSpinner.style.display = 'none';
+                        appContainer.classList.add('loaded');
+                    }, 50);
                 }
+                
+                // Update user info
+                updateUserInfo(username);
+                
+                // Show welcome message
+                showToast(`Welcome back, ${username}!`, 'success');
+                
             }, 1500);
         }
         
-        function showDashboard() {
-            const appContainer = document.getElementById('appContainer');
-            appContainer.classList.add('loaded');
-            
-            // Initialize dashboard components
-            animateCounter(document.getElementById('cpuCounter'), 65, '%');
-            animateCounter(document.getElementById('memoryCounter'), 78, '%');
-            animateCounter(document.getElementById('storageCounter'), 45, '%');
-            animateCounter(document.getElementById('billingCounter'), 3247);
-            
-            loadActivityLogs();
-            updateNotificationBadge();
-            
-            // Show welcome message
-            setTimeout(() => {
-                showToast('MK Multiverse Dashboard loaded successfully', ToastType.SUCCESS);
-                showToast('Server request system is active', ToastType.INFO);
-            }, 500);
-        }
-        
-        // ===== LOADING OVERLAY FUNCTIONS =====
         function showLoadingOverlay(message) {
             const loadingOverlay = document.getElementById('loadingOverlay');
             const loadingText = document.getElementById('loadingText');
             
-            loadingText.textContent = message;
-            loadingOverlay.classList.remove('hidden');
+            if (loadingText) loadingText.textContent = message;
+            if (loadingOverlay) loadingOverlay.classList.remove('hidden');
         }
         
         function hideLoadingOverlay() {
             const loadingOverlay = document.getElementById('loadingOverlay');
-            loadingOverlay.classList.add('hidden');
+            if (loadingOverlay) loadingOverlay.classList.add('hidden');
         }
         
-        // ===== NETWORK MONITORING =====
-        function initNetworkMonitoring() {
-            const networkStatus = document.getElementById('networkStatus');
-            const networkIcon = document.getElementById('networkIcon');
-            const networkMessage = document.getElementById('networkMessage');
-            const connectionStatus = document.getElementById('connectionStatus');
+        function handleLogin(event) {
+            if (event) event.preventDefault();
             
-            // Check initial network status
-            updateNetworkStatus();
+            console.log('Login attempt');
             
-            // Listen for network status changes
-            window.addEventListener('online', () => {
-                AppState.networkStatus = 'online';
-                updateNetworkStatus();
-                showToast('Internet connection restored', ToastType.SUCCESS);
-            });
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
             
-            window.addEventListener('offline', () => {
-                AppState.networkStatus = 'offline';
-                updateNetworkStatus();
-                showToast('Internet connection lost. Please check your connection.', ToastType.ERROR);
-            });
+            // Reset errors
+            clearErrors();
             
-            function updateNetworkStatus() {
-                const isOnline = navigator.onLine;
+            // Simple validation
+            if (!username) {
+                showError('usernameError', 'Username is required');
+                return;
+            }
+            
+            if (!password) {
+                showError('passwordError', 'Password is required');
+                return;
+            }
+            
+            // Show loading state
+            setLoginButtonState(true);
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Default credentials
+                const validCredentials = [
+                    { username: 'admin', password: 'admin123', name: 'Admin User' },
+                    { username: 'academy', password: 'academy123', name: 'Academy Admin' },
+                    { username: 'modapk', password: 'modapk123', name: 'Mod APK Admin' }
+                ];
                 
-                if (isOnline) {
-                    // Check connection speed
-                    checkConnectionSpeed().then(speed => {
-                        if (speed > 5) {
-                            // Good connection (5G/LTE)
-                            networkStatus.className = 'network-status connected show';
-                            networkIcon.className = 'fas fa-wifi';
-                            networkMessage.textContent = 'Connected (5G)';
-                            connectionStatus.textContent = 'Connection: Stable (5G)';
-                        } else if (speed > 1) {
-                            // Moderate connection
-                            networkStatus.className = 'network-status warning show';
-                            networkIcon.className = 'fas fa-wifi';
-                            networkMessage.textContent = 'Slow connection detected';
-                            connectionStatus.textContent = 'Connection: Slow';
-                            showToast('Slow internet connection detected. Consider switching to 5G.', ToastType.WARNING);
-                        } else {
-                            // Poor connection
-                            networkStatus.className = 'network-status show';
-                            networkIcon.className = 'fas fa-exclamation-triangle';
-                            networkMessage.textContent = 'Poor connection';
-                            connectionStatus.textContent = 'Connection: Unstable';
-                            showToast('Poor internet connection. Server data may not load properly.', ToastType.WARNING);
-                        }
-                    });
+                const isValid = validCredentials.some(cred => 
+                    cred.username === username && cred.password === password
+                );
+                
+                if (isValid) {
+                    // Successful login
+                    localStorage.setItem('mkLoggedIn', 'true');
+                    localStorage.setItem('mkUsername', username);
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('mkRememberMe', 'true');
+                    } else {
+                        localStorage.removeItem('mkRememberMe');
+                    }
+                    
+                    // Show dashboard
+                    showDashboard(username);
                 } else {
-                    // Offline
-                    networkStatus.className = 'network-status show';
-                    networkIcon.className = 'fas fa-wifi-slash';
-                    networkMessage.textContent = 'No internet connection';
-                    connectionStatus.textContent = 'Connection: Offline';
+                    // Failed login
+                    showError('passwordError', 'Invalid username or password');
+                    setLoginButtonState(false);
                     
-                    // Show error modal if trying to fetch data
-                    showModal('Network Error', `
-                        <div>
-                            <p style="color: var(--danger); font-weight: 600;">
-                                <i class="fas fa-wifi-slash"></i> No Internet Connection
-                            </p>
-                            <p>Unable to connect to MK Multiverse servers.</p>
-                            <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(239, 68, 68, 0.1); border-radius: var(--border-radius);">
-                                <p style="font-weight: 600;">Troubleshooting Steps:</p>
-                                <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                                    <li>Check your Wi-Fi or mobile data connection</li>
-                                    <li>Switch to 5G network for better stability</li>
-                                    <li>Restart your router or modem</li>
-                                    <li>Disable VPN if enabled</li>
-                                    <li>Contact MK Multiverse Support if problem persists</li>
-                                </ol>
-                            </div>
-                        </div>
-                    `, [
-                        { text: 'Retry Connection', class: 'btn-primary', action: () => {
-                            window.location.reload();
-                        }}
-                    ]);
-                }
-                
-                // Auto hide network status after 5 seconds if connected
-                if (isOnline) {
+                    // Shake animation
+                    const loginContainer = document.querySelector('.login-container');
+                    loginContainer.style.animation = 'shake 0.5s ease-in-out';
                     setTimeout(() => {
-                        networkStatus.classList.remove('show');
-                    }, 5000);
+                        loginContainer.style.animation = '';
+                    }, 500);
                 }
+            }, 1000);
+        }
+        
+        function handleLogout() {
+            console.log('Logging out');
+            
+            // Clear local storage
+            localStorage.removeItem('mkLoggedIn');
+            localStorage.removeItem('mkUsername');
+            
+            // Hide dashboard
+            const appContainer = document.getElementById('appContainer');
+            if (appContainer) {
+                appContainer.classList.remove('loaded');
+                setTimeout(() => {
+                    appContainer.style.display = 'none';
+                }, 300);
             }
             
-            async function checkConnectionSpeed() {
-                return new Promise((resolve) => {
-                    const startTime = Date.now();
-                    const image = new Image();
-                    
-                    image.onload = function() {
-                        const endTime = Date.now();
-                        const duration = (endTime - startTime) / 1000;
-                        const size = 50; // KB
-                        const speed = size / duration;
-                        resolve(speed);
-                    };
-                    
-                    image.onerror = function() {
-                        resolve(0);
-                    };
-                    
-                    // Load a small image to test speed
-                    image.src = 'https://via.placeholder.com/1x1.png?text=test&' + Date.now();
-                });
+            // Show login screen
+            showLoginScreen();
+            
+            // Clear form
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            showToast('Successfully logged out', 'info');
+        }
+        
+        function updateUserInfo(username) {
+            // Update user avatar
+            const userAvatar = document.querySelector('.user-avatar');
+            if (userAvatar) {
+                const initials = username.substring(0, 2).toUpperCase();
+                userAvatar.textContent = initials;
+            }
+            
+            // Update page title
+            const pageTitle = document.getElementById('pageTitle');
+            if (pageTitle) {
+                pageTitle.textContent = `Welcome, ${username}`;
             }
         }
         
-        // ===== UI UTILITIES =====
-        // Toast types
-        const ToastType = {
-            SUCCESS: 'success',
-            ERROR: 'error',
-            WARNING: 'warning',
-            INFO: 'info'
-        };
-        
-        // Show toast notification
-        function showToast(message, type = ToastType.INFO) {
-            const toastContainer = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            
-            let icon;
-            switch(type) {
-                case ToastType.SUCCESS:
-                    icon = '<i class="fas fa-check-circle"></i>';
-                    break;
-                case ToastType.ERROR:
-                    icon = '<i class="fas fa-exclamation-circle"></i>';
-                    break;
-                case ToastType.WARNING:
-                    icon = '<i class="fas fa-exclamation-triangle"></i>';
-                    break;
-                default:
-                    icon = '<i class="fas fa-info-circle"></i>';
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
             }
+        }
+        
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+        }
+        
+        function setLoginButtonState(isLoading) {
+            const loginBtn = document.getElementById('loginBtn');
+            const loginBtnText = document.getElementById('loginBtnText');
+            const loginSpinner = document.getElementById('loginSpinner');
+            
+            if (isLoading) {
+                loginBtn.disabled = true;
+                loginBtnText.textContent = 'Authenticating...';
+                loginSpinner.style.display = 'inline-block';
+            } else {
+                loginBtn.disabled = false;
+                loginBtnText.textContent = 'Login to Dashboard';
+                loginSpinner.style.display = 'none';
+            }
+        }
+        
+        function showToast(message, type = 'info') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toastContainer';
+                toastContainer.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 9999;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                `;
+                document.body.appendChild(toastContainer);
+            }
+            
+            // Create toast
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            let icon = 'ℹ️';
+            if (type === 'success') icon = '✅';
+            if (type === 'error') icon = '❌';
             
             toast.innerHTML = `
                 ${icon}
                 <span>${message}</span>
-                <button class="toast-close" style="margin-left: auto; background: none; border: none; color: inherit; cursor: pointer;">
-                    <i class="fas fa-times"></i>
-                </button>
             `;
             
             toastContainer.appendChild(toast);
             
-            // Trigger animation
-            setTimeout(() => toast.classList.add('show'), 10);
-            
-            // Close button
-            const closeBtn = toast.querySelector('.toast-close');
-            closeBtn.addEventListener('click', () => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            });
-            
-            // Auto dismiss after 5 seconds
+            // Remove toast after 3 seconds
             setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.classList.remove('show');
-                    setTimeout(() => toast.remove(), 300);
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+            
+            // Add animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
                 }
-            }, 5000);
-            
-            return toast;
-        }
-        
-        // Show modal
-        function showModal(title, content, buttons = []) {
-            const modal = document.getElementById('serverModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-            const modalFooter = document.getElementById('modalFooter');
-            
-            modalTitle.textContent = title;
-            modalBody.innerHTML = content;
-            
-            // Clear previous buttons
-            modalFooter.innerHTML = '';
-            
-            // Add close button
-            const closeBtn = document.createElement('button');
-            closeBtn.className = 'btn btn-secondary';
-            closeBtn.innerHTML = '<i class="fas fa-times"></i> Close';
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('active');
-            });
-            modalFooter.appendChild(closeBtn);
-            
-            // Add custom buttons
-            buttons.forEach(button => {
-                const btn = document.createElement('button');
-                btn.className = `btn ${button.class || 'btn-primary'}`;
-                btn.innerHTML = button.text;
-                btn.addEventListener('click', button.action);
-                modalFooter.appendChild(btn);
-            });
-            
-            modal.classList.add('active');
-        }
-        
-        // Close modal
-        function closeModal() {
-            document.getElementById('serverModal').classList.remove('active');
-        }
-        
-        // Update notification badge
-        function updateNotificationBadge() {
-            const unreadCount = AppState.notifications.filter(n => !n.read).length;
-            document.getElementById('notificationBadge').textContent = unreadCount;
-        }
-        
-        // Animated counters
-        function animateCounter(element, target, suffix = '', duration = 2000) {
-            const start = 0;
-            const increment = target / (duration / 16);
-            let current = start;
-            
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target + suffix;
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current) + suffix;
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
                 }
-            }, 16);
-        }
-        
-        // Load activity logs
-        function loadActivityLogs() {
-            const tbody = document.getElementById('activityLogBody');
-            if (!tbody) return;
-            
-            tbody.innerHTML = '';
-            
-            AppState.activityLogs.forEach(log => {
-                const row = document.createElement('tr');
-                let statusClass = 'status-healthy';
-                if (log.status === 'warning') statusClass = 'status-warning';
-                if (log.status === 'blocked') statusClass = 'status-down';
-                if (log.status === 'academy') statusClass = 'status-academy';
-                if (log.status === 'mod') statusClass = 'status-mod';
-                
-                row.innerHTML = `
-                    <td>${log.timestamp}</td>
-                    <td>${log.action}</td>
-                    <td>${log.user}</td>
-                    <td><span class="status-pill ${statusClass}">${log.status}</span></td>
-                    <td>
-                        <button class="btn btn-secondary btn-sm view-log" data-id="${log.id}">View</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-            
-            // Add event listeners to view buttons
-            document.querySelectorAll('.view-log').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const logId = parseInt(this.getAttribute('data-id'));
-                    const log = AppState.activityLogs.find(l => l.id === logId);
-                    if (log) {
-                        showModal('Activity Log Details', `
-                            <div>
-                                <p><strong>Timestamp:</strong> ${log.timestamp}</p>
-                                <p><strong>Action:</strong> ${log.action}</p>
-                                <p><strong>User:</strong> ${log.user}</p>
-                                <p><strong>Status:</strong> ${log.status}</p>
-                                <p><strong>Details:</strong> This action was performed by the user at the specified time.</p>
-                            </div>
-                        `);
-                    }
-                });
-            });
-        }
-        
-        // Add activity log
-        function addActivityLog(action, user, status) {
-            const now = new Date();
-            const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-            
-            const newLog = {
-                id: AppState.activityLogs.length + 1,
-                timestamp,
-                action,
-                user,
-                status
-            };
-            
-            AppState.activityLogs.unshift(newLog);
-            loadActivityLogs();
-            
-            // Show toast notification
-            let toastType = ToastType.INFO;
-            if (status === 'success') toastType = ToastType.SUCCESS;
-            if (status === 'warning') toastType = ToastType.WARNING;
-            if (status === 'blocked' || status === 'error') toastType = ToastType.ERROR;
-            
-            showToast(action, toastType);
-        }
-        
-        // Load recent requests for dashboard
-        function loadRecentRequests() {
-            const recentRequestsList = document.getElementById('recentRequestsList');
-            if (!recentRequestsList) return;
-            
-            recentRequestsList.innerHTML = '';
-            
-            // Get 3 most recent requests
-            const recentRequests = AppState.serverRequests.slice(0, 3);
-            
-            recentRequests.forEach(request => {
-                const requestItem = document.createElement('div');
-                requestItem.className = `request-item ${request.type === 'academy' ? 'academy-request' : 'mod-request'}`;
-                
-                const statusClass = request.status === 'pending' ? 'status-warning' : 
-                                  request.status === 'approved' ? 'status-healthy' : 
-                                  request.status === 'in-progress' ? 'status-mod' : 'status-success';
-                
-                requestItem.innerHTML = `
-                    <div class="request-header">
-                        <div class="request-title">${request.title}</div>
-                        <span class="status-pill ${statusClass}">${request.status}</span>
-                    </div>
-                    <div class="request-details">
-                        ${request.description}
-                    </div>
-                    <div class="request-meta">
-                        <span><i class="fas fa-user"></i> ${request.requester}</span>
-                        <span><i class="fas fa-calendar"></i> ${request.date}</span>
-                        <span><i class="fas fa-money-bill"></i> ${request.estimatedCost}</span>
-                    </div>
-                    <div class="request-actions">
-                        <button class="btn btn-secondary btn-sm view-request-btn" data-id="${request.id}">View</button>
-                        <button class="btn btn-primary btn-sm process-request-btn" data-id="${request.id}">Process</button>
-                    </div>
-                `;
-                
-                recentRequestsList.appendChild(requestItem);
-            });
-            
-            // Add event listeners
-            document.querySelectorAll('.view-request-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const requestId = parseInt(this.getAttribute('data-id'));
-                    viewServerRequest(requestId);
-                });
-            });
-            
-            document.querySelectorAll('.process-request-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const requestId = parseInt(this.getAttribute('data-id'));
-                    processServerRequest(requestId);
-                });
-            });
-        }
-        
-        // ===== PAGE NAVIGATION =====
-        function loadPage(page) {
-            const contentArea = document.getElementById('dashboardContent');
-            const dynamicContent = document.getElementById('dynamicContent');
-            const pageTitle = document.getElementById('pageTitle');
-            
-            // Update active nav link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-page') === page) {
-                    link.classList.add('active');
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
                 }
-            });
-            
-            // Update page title
-            pageTitle.textContent = page.charAt(0).toUpperCase() + page.slice(1).replace(/([A-Z])/g, ' $1');
-            
-            // Hide dashboard content
-            contentArea.style.display = 'none';
-            
-            // Load page content
-            switch(page) {
-                case 'dashboard':
-                    contentArea.style.display = 'block';
-                    dynamicContent.innerHTML = '';
-                    loadRecentRequests();
-                    break;
-                    
-                case 'serverRequests':
-                    loadServerRequestsPage();
-                    break;
-                    
-                case 'passwords':
-                    loadPasswordsPage();
-                    break;
-                    
-                case 'servers':
-                    loadServersPage();
-                    break;
-                    
-                case 'analytics':
-                    loadAnalyticsPage();
-                    break;
-                    
-                case 'security':
-                    loadSecurityPage();
-                    break;
-                    
-                case 'users':
-                    loadUsersPage();
-                    break;
-                    
-                case 'billing':
-                    loadBillingPage();
-                    break;
-                    
-                case 'support':
-                    loadSupportPage();
-                    break;
-                    
-                case 'settings':
-                    loadSettingsPage();
-                    break;
-                    
-                default:
-                    loadDefaultPage(page);
-            }
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
-        
-        // ===== SERVER REQUESTS PAGE =====
-        function loadServerRequestsPage() {
-            const dynamicContent = document.getElementById('dynamicContent');
-            
-            dynamicContent.innerHTML = `
-                <div class="settings-container">
-                    <h2 style="margin-bottom: 1rem;">Server Requests Management</h2>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Manage server requests for Chil Ratna Khan Sir Academy and Mod APK hosting.</p>
-                    
-                    <div class="server-request-grid">
-                        <!-- Academy Request Form -->
-                        <div class="card request-form-card" data-aos="fade-up">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <div class="academy-badge">
-                                        <i class="fas fa-graduation-cap"></i>
-                                        Chil Ratna Khan Sir Academy
-                                    </div>
-                                </h3>
-                            </div>
-                            <div class="card-body">
-                                <form id="academyRequestForm">
-                                    <div class="form-group">
-                                        <label for="academyTitle">Request Title</label>
-                                        <input type="text" id="academyTitle" placeholder="e.g., Online Exam Portal Server" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="academyDescription">Description</label>
-                                        <textarea id="academyDescription" placeholder="Describe your server requirements..." required></textarea>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="academyRequester">Requester Name</label>
-                                        <input type="text" id="academyRequester" placeholder="Your name" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="academyEmail">Email Address</label>
-                                        <input type="email" id="academyEmail" placeholder="your@email.com" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="academyPriority">Priority</label>
-                                        <select id="academyPriority" required>
-                                            <option value="low">Low</option>
-                                            <option value="medium" selected>Medium</option>
-                                            <option value="high">High</option>
-                                            <option value="urgent">Urgent</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="academyRequirements">Technical Requirements</label>
-                                        <textarea id="academyRequirements" placeholder="CPU, RAM, Storage, Bandwidth requirements..." required></textarea>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="academyBudget">Estimated Budget (Monthly)</label>
-                                        <input type="text" id="academyBudget" placeholder="$200-$500" required>
-                                    </div>
-                                    
-                                    <button type="submit" class="btn btn-academy" style="width: 100%;">
-                                        <i class="fas fa-paper-plane"></i> Submit Academy Request
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        
-                        <!-- Mod APK Request Form -->
-                        <div class="card mod-request-form-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <div class="mod-badge">
-                                        <i class="fas fa-robot"></i>
-                                        Mod APK Server Request
-                                    </div>
-                                </h3>
-                            </div>
-                            <div class="card-body">
-                                <form id="modRequestForm">
-                                    <div class="form-group">
-                                        <label for="modTitle">APK Name / Game</label>
-                                        <input type="text" id="modTitle" placeholder="e.g., Free Fire Max Mod APK" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="modDescription">Mod Features Required</label>
-                                        <textarea id="modDescription" placeholder="Describe mod features (unlimited diamonds, god mode, etc.)..." required></textarea>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="modRequester">Requester Name</label>
-                                        <input type="text" id="modRequester" placeholder="Your name" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="modEmail">Email Address</label>
-                                        <input type="email" id="modEmail" placeholder="your@email.com" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="modAppType">Application Type</label>
-                                        <select id="modAppType" required>
-                                            <option value="game">Game Mod</option>
-                                            <option value="app">Application Mod</option>
-                                            <option value="tool">Tool/Crack</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="modVersion">APK Version</label>
-                                        <input type="text" id="modVersion" placeholder="e.g., 2.98.1" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="modStorage">Estimated Storage Needed</label>
-                                        <input type="text" id="modStorage" placeholder="e.g., 50GB for APK files" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="modTraffic">Expected Traffic</label>
-                                        <select id="modTraffic" required>
-                                            <option value="low">Low (Under 1k downloads/day)</option>
-                                            <option value="medium" selected>Medium (1k-10k downloads/day)</option>
-                                            <option value="high">High (10k+ downloads/day)</option>
-                                            <option value="very-high">Very High (100k+ downloads/day)</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <button type="submit" class="btn btn-mod" style="width: 100%;">
-                                        <i class="fas fa-paper-plane"></i> Submit Mod APK Request
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        
-                        <!-- All Requests List -->
-                        <div class="card request-list-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="card-header">
-                                <h3 class="card-title">All Server Requests</h3>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <button class="btn btn-secondary" id="filterPendingBtn">
-                                        <i class="fas fa-clock"></i> Pending
-                                    </button>
-                                    <button class="btn btn-secondary" id="filterAcademyBtn">
-                                        <i class="fas fa-graduation-cap"></i> Academy
-                                    </button>
-                                    <button class="btn btn-secondary" id="filterModBtn">
-                                        <i class="fas fa-robot"></i> Mod APK
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div id="allRequestsList">
-                                    <!-- All requests will be loaded here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             `;
-            
-            // Load all requests
-            loadAllRequests();
-            
-            // Add event listeners for forms
-            setTimeout(() => {
-                // Academy request form
-                document.getElementById('academyRequestForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const title = document.getElementById('academyTitle').value;
-                    const description = document.getElementById('academyDescription').value;
-                    const requester = document.getElementById('academyRequester').value;
-                    const email = document.getElementById('academyEmail').value;
-                    const priority = document.getElementById('academyPriority').value;
-                    const requirements = document.getElementById('academyRequirements').value;
-                    const budget = document.getElementById('academyBudget').value;
-                    
-                    // Create new request
-                    const newRequest = {
-                        id: AppState.serverRequests.length + 1,
-                        type: 'academy',
-                        title: title,
-                        description: description,
-                        requester: requester,
-                        email: email,
-                        priority: priority,
-                        status: 'pending',
-                        date: new Date().toISOString().split('T')[0],
-                        estimatedCost: budget,
-                        requirements: requirements
-                    };
-                    
-                    AppState.serverRequests.unshift(newRequest);
-                    addActivityLog(`New academy request submitted: ${title}`, requester, 'academy');
-                    showToast('Academy server request submitted successfully!', ToastType.SUCCESS);
-                    
-                    // Reset form
-                    this.reset();
-                    
-                    // Reload requests
-                    loadAllRequests();
-                    loadRecentRequests();
-                });
-                
-                // Mod APK request form
-                document.getElementById('modRequestForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const title = document.getElementById('modTitle').value;
-                    const description = document.getElementById('modDescription').value;
-                    const requester = document.getElementById('modRequester').value;
-                    const email = document.getElementById('modEmail').value;
-                    const appType = document.getElementById('modAppType').value;
-                    const version = document.getElementById('modVersion').value;
-                    const storage = document.getElementById('modStorage').value;
-                    const traffic = document.getElementById('modTraffic').value;
-                    
-                    // Calculate estimated cost based on traffic
-                    let estimatedCost = '$100/month';
-                    if (traffic === 'medium') estimatedCost = '$200/month';
-                    if (traffic === 'high') estimatedCost = '$350/month';
-                    if (traffic === 'very-high') estimatedCost = '$500/month';
-                    
-                    // Create new request
-                    const newRequest = {
-                        id: AppState.serverRequests.length + 1,
-                        type: 'mod-apk',
-                        title: title,
-                        description: description,
-                        requester: requester,
-                        email: email,
-                        priority: traffic === 'very-high' ? 'high' : 'medium',
-                        status: 'pending',
-                        date: new Date().toISOString().split('T')[0],
-                        estimatedCost: estimatedCost,
-                        requirements: `${appType.toUpperCase()} | Version: ${version} | Storage: ${storage} | Traffic: ${traffic}`
-                    };
-                    
-                    AppState.serverRequests.unshift(newRequest);
-                    addActivityLog(`New Mod APK request submitted: ${title}`, requester, 'mod');
-                    showToast('Mod APK server request submitted successfully!', ToastType.SUCCESS);
-                    
-                    // Reset form
-                    this.reset();
-                    
-                    // Reload requests
-                    loadAllRequests();
-                    loadRecentRequests();
-                });
-                
-                // Filter buttons
-                document.getElementById('filterPendingBtn').addEventListener('click', () => {
-                    filterRequests('pending');
-                });
-                
-                document.getElementById('filterAcademyBtn').addEventListener('click', () => {
-                    filterRequests('academy');
-                });
-                
-                document.getElementById('filterModBtn').addEventListener('click', () => {
-                    filterRequests('mod-apk');
-                });
-            }, 100);
+            document.head.appendChild(style);
         }
         
-        function loadAllRequests(filter = 'all') {
-            const allRequestsList = document.getElementById('allRequestsList');
-            if (!allRequestsList) return;
-            
-            allRequestsList.innerHTML = '';
-            
-            // Filter requests
-            let filteredRequests = AppState.serverRequests;
-            if (filter === 'pending') {
-                filteredRequests = AppState.serverRequests.filter(r => r.status === 'pending');
-            } else if (filter === 'academy') {
-                filteredRequests = AppState.serverRequests.filter(r => r.type === 'academy');
-            } else if (filter === 'mod-apk') {
-                filteredRequests = AppState.serverRequests.filter(r => r.type === 'mod-apk');
-            }
-            
-            if (filteredRequests.length === 0) {
-                allRequestsList.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-                        <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                        <p>No server requests found.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            filteredRequests.forEach(request => {
-                const requestItem = document.createElement('div');
-                requestItem.className = `request-item ${request.type === 'academy' ? 'academy-request' : 'mod-request'}`;
-                
-                const statusClass = request.status === 'pending' ? 'status-warning' : 
-                                  request.status === 'approved' ? 'status-healthy' : 
-                                  request.status === 'in-progress' ? 'status-mod' : 'status-success';
-                
-                const typeBadge = request.type === 'academy' ? 
-                    '<span class="status-pill status-academy"><i class="fas fa-graduation-cap"></i> Academy</span>' :
-                    '<span class="status-pill status-mod"><i class="fas fa-robot"></i> Mod APK</span>';
-                
-                requestItem.innerHTML = `
-                    <div class="request-header">
-                        <div class="request-title">${request.title}</div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            ${typeBadge}
-                            <span class="status-pill ${statusClass}">${request.status}</span>
-                        </div>
-                    </div>
-                    <div class="request-details">
-                        ${request.description}
-                    </div>
-                    <div class="request-meta">
-                        <span><i class="fas fa-user"></i> ${request.requester} (${request.email})</span>
-                        <span><i class="fas fa-calendar"></i> ${request.date}</span>
-                        <span><i class="fas fa-money-bill"></i> ${request.estimatedCost}</span>
-                        <span><i class="fas fa-server"></i> ${request.requirements.substring(0, 50)}...</span>
-                    </div>
-                    <div class="request-actions">
-                        <button class="btn btn-secondary btn-sm view-full-request-btn" data-id="${request.id}">View Details</button>
-                        <button class="btn btn-primary btn-sm update-status-btn" data-id="${request.id}">Update Status</button>
-                        <button class="btn btn-danger btn-sm delete-request-btn" data-id="${request.id}">Delete</button>
-                    </div>
-                `;
-                
-                allRequestsList.appendChild(requestItem);
-            });
-            
-            // Add event listeners
-            document.querySelectorAll('.view-full-request-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const requestId = parseInt(this.getAttribute('data-id'));
-                    viewServerRequest(requestId);
-                });
-            });
-            
-            document.querySelectorAll('.update-status-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const requestId = parseInt(this.getAttribute('data-id'));
-                    updateRequestStatus(requestId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-request-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const requestId = parseInt(this.getAttribute('data-id'));
-                    deleteServerRequest(requestId);
-                });
-            });
-        }
-        
-        function filterRequests(filterType) {
-            loadAllRequests(filterType);
-            
-            // Update button states
-            const buttons = ['filterPendingBtn', 'filterAcademyBtn', 'filterModBtn'];
-            buttons.forEach(btnId => {
-                const btn = document.getElementById(btnId);
-                if (btn) {
-                    if (btnId === `filter${filterType.charAt(0).toUpperCase() + filterType.slice(1).replace('-', '')}Btn`) {
-                        btn.classList.add('btn-primary');
-                        btn.classList.remove('btn-secondary');
-                    } else {
-                        btn.classList.add('btn-secondary');
-                        btn.classList.remove('btn-primary');
-                    }
-                }
-            });
-        }
-        
-        function viewServerRequest(requestId) {
-            const request = AppState.serverRequests.find(r => r.id === requestId);
-            if (!request) return;
-            
-            const typeLabel = request.type === 'academy' ? 'Academy Request' : 'Mod APK Request';
-            const typeIcon = request.type === 'academy' ? 'fas fa-graduation-cap' : 'fas fa-robot';
-            const typeColor = request.type === 'academy' ? 'var(--academy)' : 'var(--mod-apk)';
-            
-            showModal(`Server Request #${request.id}`, `
-                <div>
-                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
-                        <div style="font-size: 2rem; color: ${typeColor};">
-                            <i class="${typeIcon}"></i>
-                        </div>
-                        <div>
-                            <h3 style="margin-bottom: 0.25rem;">${request.title}</h3>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <span class="status-pill ${request.type === 'academy' ? 'status-academy' : 'status-mod'}">
-                                    ${typeLabel}
-                                </span>
-                                <span class="status-pill ${request.status === 'pending' ? 'status-warning' : request.status === 'approved' ? 'status-healthy' : request.status === 'in-progress' ? 'status-mod' : 'status-success'}">
-                                    ${request.status}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="margin-bottom: 0.5rem;">Description</h4>
-                        <p>${request.description}</p>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                        <div>
-                            <h5 style="margin-bottom: 0.25rem;">Requester</h5>
-                            <p><i class="fas fa-user"></i> ${request.requester}</p>
-                        </div>
-                        <div>
-                            <h5 style="margin-bottom: 0.25rem;">Email</h5>
-                            <p><i class="fas fa-envelope"></i> ${request.email}</p>
-                        </div>
-                        <div>
-                            <h5 style="margin-bottom: 0.25rem;">Priority</h5>
-                            <p><i class="fas fa-flag"></i> ${request.priority}</p>
-                        </div>
-                        <div>
-                            <h5 style="margin-bottom: 0.25rem;">Date</h5>
-                            <p><i class="fas fa-calendar"></i> ${request.date}</p>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="margin-bottom: 0.5rem;">Technical Requirements</h4>
-                        <div style="padding: 1rem; background-color: var(--bg-secondary); border-radius: var(--border-radius);">
-                            <p>${request.requirements}</p>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 style="margin-bottom: 0.5rem;">Estimated Cost</h4>
-                        <div style="padding: 1rem; background-color: var(--bg-secondary); border-radius: var(--border-radius); font-size: 1.25rem; font-weight: 600; color: var(--primary);">
-                            ${request.estimatedCost}
-                        </div>
-                    </div>
-                </div>
-            `, [
-                { text: 'Close', class: 'btn-secondary', action: closeModal },
-                { text: 'Process Request', class: 'btn-primary', action: () => {
-                    processServerRequest(requestId);
-                    closeModal();
-                }}
-            ]);
-        }
-        
-        function processServerRequest(requestId) {
-            const request = AppState.serverRequests.find(r => r.id === requestId);
-            if (!request) return;
-            
-            showModal(`Process Request #${request.id}`, `
-                <div>
-                    <h4 style="margin-bottom: 1rem;">Process Server Request</h4>
-                    <p>Update the status and assign resources for this request.</p>
-                    
-                    <div class="form-group">
-                        <label for="newStatus">New Status</label>
-                        <select id="newStatus" style="width: 100%;">
-                            <option value="pending" ${request.status === 'pending' ? 'selected' : ''}>Pending</option>
-                            <option value="approved" ${request.status === 'approved' ? 'selected' : ''}>Approved</option>
-                            <option value="in-progress" ${request.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
-                            <option value="completed" ${request.status === 'completed' ? 'selected' : ''}>Completed</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="assignedServer">Assign to Server</label>
-                        <select id="assignedServer" style="width: 100%;">
-                            <option value="">Select a server</option>
-                            <option value="us-east-1">US-East-1 (Virginia)</option>
-                            <option value="eu-west-2">EU-West-2 (London)</option>
-                            <option value="ap-south-1">AP-South-1 (Mumbai)</option>
-                            <option value="new">Deploy New Server</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="adminNotes">Administrator Notes</label>
-                        <textarea id="adminNotes" placeholder="Add notes about this request..." style="width: 100%; height: 100px;"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="actualCost">Actual Monthly Cost</label>
-                        <input type="text" id="actualCost" placeholder="${request.estimatedCost}" style="width: 100%;">
-                    </div>
-                </div>
-            `, [
-                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                { text: 'Update Request', class: 'btn-primary', action: () => {
-                    const newStatus = document.getElementById('newStatus').value;
-                    const assignedServer = document.getElementById('assignedServer').value;
-                    const adminNotes = document.getElementById('adminNotes').value;
-                    const actualCost = document.getElementById('actualCost').value;
-                    
-                    // Update request
-                    request.status = newStatus;
-                    request.assignedServer = assignedServer;
-                    request.adminNotes = adminNotes;
-                    if (actualCost) request.actualCost = actualCost;
-                    
-                    // Update activity log
-                    addActivityLog(`Server request processed: ${request.title} (Status: ${newStatus})`, AppState.user.email, 'success');
-                    
-                    // Show success message
-                    showToast(`Request #${requestId} updated to "${newStatus}"`, ToastType.SUCCESS);
-                    
-                    // Reload requests
-                    loadAllRequests();
-                    loadRecentRequests();
-                    
-                    closeModal();
-                }}
-            ]);
-        }
-        
-        function deleteServerRequest(requestId) {
-            const request = AppState.serverRequests.find(r => r.id === requestId);
-            if (!request) return;
-            
-            showModal('Delete Server Request', `
-                <div>
-                    <h4 style="color: var(--danger); margin-bottom: 1rem;">Delete Request #${requestId}</h4>
-                    <p>Are you sure you want to delete this server request?</p>
-                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
-                        This action cannot be undone. All data related to this request will be permanently deleted.
-                    </p>
-                    <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(239, 68, 68, 0.1); border-radius: var(--border-radius);">
-                        <p><strong>Title:</strong> ${request.title}</p>
-                        <p><strong>Type:</strong> ${request.type === 'academy' ? 'Academy' : 'Mod APK'}</p>
-                        <p><strong>Requester:</strong> ${request.requester}</p>
-                        <p><strong>Date:</strong> ${request.date}</p>
-                    </div>
-                </div>
-            `, [
-                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                { text: 'Delete Request', class: 'btn-danger', action: () => {
-                    // Remove request from array
-                    const index = AppState.serverRequests.findIndex(r => r.id === requestId);
-                    if (index > -1) {
-                        AppState.serverRequests.splice(index, 1);
-                    }
-                    
-                    // Update activity log
-                    addActivityLog(`Server request deleted: ${request.title}`, AppState.user.email, 'warning');
-                    
-                    // Show success message
-                    showToast(`Request #${requestId} deleted successfully`, ToastType.SUCCESS);
-                    
-                    // Reload requests
-                    loadAllRequests();
-                    loadRecentRequests();
-                    
-                    closeModal();
-                }}
-            ]);
-        }
-        
-        // ===== PASSWORDS PAGE =====
-        function loadPasswordsPage() {
-            const dynamicContent = document.getElementById('dynamicContent');
-            
-            dynamicContent.innerHTML = `
-                <div class="settings-container">
-                    <h2 style="margin-bottom: 1rem;">Password Manager</h2>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Manage passwords for Chil Ratna Khan Academy and Mod APK servers.</p>
-                    
-                    <div class="password-manager" data-aos="fade-up">
-                        <h3 style="margin-bottom: 1rem;">
-                            <i class="fas fa-key"></i> Server Passwords & Credentials
-                        </h3>
-                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">
-                            Securely store and manage all server passwords. Passwords are encrypted and only visible to administrators.
-                        </p>
-                        
-                        <div class="password-grid" id="passwordGrid">
-                            <!-- Passwords will be loaded here -->
-                        </div>
-                        
-                        <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                            <button class="btn btn-primary" id="addPasswordBtn">
-                                <i class="fas fa-plus"></i> Add New Password
-                            </button>
-                            <button class="btn btn-secondary" id="exportPasswordsBtn">
-                                <i class="fas fa-download"></i> Export Passwords
-                            </button>
-                            <button class="btn btn-danger" id="changeMasterPasswordBtn">
-                                <i class="fas fa-lock"></i> Change Master Password
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Password Statistics -->
-                    <div class="dashboard-grid" style="margin-top: 2rem;">
-                        <div class="card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="card-header">
-                                <h3 class="card-title">Password Statistics</h3>
-                            </div>
-                            <div class="card-body">
-                                <div style="text-align: center; margin-bottom: 1.5rem;">
-                                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary);">${AppState.passwords.length}</div>
-                                    <div style="color: var(--text-secondary);">Total Passwords</div>
-                                </div>
-                                <div style="display: flex; justify-content: space-around;">
-                                    <div style="text-align: center;">
-                                        <div style="font-size: 1.5rem; font-weight: 600; color: var(--academy);">${AppState.passwords.filter(p => p.category === 'academy').length}</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Academy</div>
-                                    </div>
-                                    <div style="text-align: center;">
-                                        <div style="font-size: 1.5rem; font-weight: 600; color: var(--mod-apk);">${AppState.passwords.filter(p => p.category === 'mod-apk').length}</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Mod APK</div>
-                                    </div>
-                                    <div style="text-align: center;">
-                                        <div style="font-size: 1.5rem; font-weight: 600; color: var(--info);">${AppState.passwords.filter(p => p.category !== 'academy' && p.category !== 'mod-apk').length}</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Other</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="card-header">
-                                <h3 class="card-title">Password Security</h3>
-                            </div>
-                            <div class="card-body">
-                                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                    <div>
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                            <span>Password Strength</span>
-                                            <span style="font-weight: 600; color: var(--success);">Strong</span>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: 85%; background-color: var(--success);"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                            <span>Last Changed</span>
-                                            <span>2 days ago</span>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: 90%; background-color: var(--success);"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                            <span>Encryption Status</span>
-                                            <span style="font-weight: 600; color: var(--success);">Active</span>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: 100%; background-color: var(--success);"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Load passwords
-            loadPasswords();
-            
-            // Add event listeners
-            setTimeout(() => {
-                document.getElementById('addPasswordBtn').addEventListener('click', () => {
-                    showModal('Add New Password', `
-                        <div>
-                            <h4 style="margin-bottom: 1rem;">Add New Password</h4>
-                            <div class="form-group">
-                                <label for="passwordName">Name/Service</label>
-                                <input type="text" id="passwordName" placeholder="e.g., Academy Admin Panel" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="passwordUsername">Username</label>
-                                <input type="text" id="passwordUsername" placeholder="Username or email" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="passwordValue">Password</label>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <input type="password" id="passwordValue" placeholder="Enter password" required style="flex: 1;">
-                                    <button type="button" id="generatePasswordBtn" class="btn btn-secondary">
-                                        <i class="fas fa-random"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="passwordCategory">Category</label>
-                                <select id="passwordCategory" required>
-                                    <option value="academy">Chil Ratna Khan Academy</option>
-                                    <option value="mod-apk">Mod APK Server</option>
-                                    <option value="server">General Server</option>
-                                    <option value="database">Database</option>
-                                    <option value="ftp">FTP/SFTP</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="passwordNotes">Notes</label>
-                                <textarea id="passwordNotes" placeholder="Additional notes about this password..."></textarea>
-                            </div>
-                        </div>
-                    `, [
-                        { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                        { text: 'Save Password', class: 'btn-primary', action: () => {
-                            const name = document.getElementById('passwordName').value;
-                            const username = document.getElementById('passwordUsername').value;
-                            const password = document.getElementById('passwordValue').value;
-                            const category = document.getElementById('passwordCategory').value;
-                            const notes = document.getElementById('passwordNotes').value;
-                            
-                            if (!name || !username || !password) {
-                                showToast('Please fill in all required fields', ToastType.WARNING);
-                                return;
-                            }
-                            
-                            // Add new password
-                            const newPassword = {
-                                id: AppState.passwords.length + 1,
-                                name: name,
-                                username: username,
-                                password: password,
-                                category: category,
-                                notes: notes
-                            };
-                            
-                            AppState.passwords.push(newPassword);
-                            addActivityLog(`New password added: ${name}`, AppState.user.email, 'success');
-                            showToast('Password saved successfully', ToastType.SUCCESS);
-                            
-                            // Reload passwords
-                            loadPasswords();
-                            closeModal();
-                        }}
-                    ]);
-                    
-                    // Add password generator
-                    document.getElementById('generatePasswordBtn').addEventListener('click', function() {
-                        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-                        let password = '';
-                        for (let i = 0; i < 16; i++) {
-                            password += chars.charAt(Math.floor(Math.random() * chars.length));
-                        }
-                        document.getElementById('passwordValue').value = password;
-                        document.getElementById('passwordValue').type = 'text';
-                        
-                        // Show toast
-                        showToast('Strong password generated', ToastType.SUCCESS);
-                    });
-                });
-                
-                document.getElementById('exportPasswordsBtn').addEventListener('click', () => {
-                    showModal('Export Passwords', `
-                        <div>
-                            <h4 style="margin-bottom: 1rem;">Export Passwords</h4>
-                            <p>Export all passwords to a secure file format.</p>
-                            <div style="margin-top: 1.5rem;">
-                                <div class="form-group">
-                                    <label for="exportFormat">Export Format</label>
-                                    <select id="exportFormat">
-                                        <option value="csv">CSV (Excel)</option>
-                                        <option value="json">JSON</option>
-                                        <option value="txt">Text File</option>
-                                        <option value="encrypted">Encrypted Backup</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="exportPassword">Encryption Password</label>
-                                    <input type="password" id="exportPassword" placeholder="Enter encryption password">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label style="display: block; margin-bottom: 0.5rem;">Include Categories</label>
-                                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                            <input type="checkbox" checked> Chil Ratna Khan Academy
-                                        </label>
-                                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                            <input type="checkbox" checked> Mod APK Servers
-                                        </label>
-                                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                            <input type="checkbox" checked> Other Passwords
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `, [
-                        { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                        { text: 'Export Passwords', class: 'btn-primary', action: () => {
-                            showLoadingOverlay('Exporting passwords...');
-                            setTimeout(() => {
-                                hideLoadingOverlay();
-                                showToast('Passwords exported successfully', ToastType.SUCCESS);
-                                addActivityLog('All passwords exported', AppState.user.email, 'success');
-                                closeModal();
-                            }, 2000);
-                        }}
-                    ]);
-                });
-                
-                document.getElementById('changeMasterPasswordBtn').addEventListener('click', () => {
-                    showModal('Change Master Password', `
-                        <div>
-                            <h4 style="margin-bottom: 1rem;">Change Master Password</h4>
-                            <p>Change the master password for accessing all stored passwords.</p>
-                            <div style="margin-top: 1.5rem;">
-                                <div class="form-group">
-                                    <label for="currentMasterPassword">Current Master Password</label>
-                                    <input type="password" id="currentMasterPassword" placeholder="Enter current master password" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="newMasterPassword">New Master Password</label>
-                                    <input type="password" id="newMasterPassword" placeholder="Enter new master password" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="confirmMasterPassword">Confirm New Password</label>
-                                    <input type="password" id="confirmMasterPassword" placeholder="Confirm new master password" required>
-                                </div>
-                            </div>
-                        </div>
-                    `, [
-                        { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                        { text: 'Change Password', class: 'btn-primary', action: () => {
-                            const current = document.getElementById('currentMasterPassword').value;
-                            const newPass = document.getElementById('newMasterPassword').value;
-                            const confirm = document.getElementById('confirmMasterPassword').value;
-                            
-                            if (newPass !== confirm) {
-                                showToast('New passwords do not match', ToastType.ERROR);
-                                return;
-                            }
-                            
-                            if (newPass.length < 8) {
-                                showToast('Password must be at least 8 characters', ToastType.WARNING);
-                                return;
-                            }
-                            
-                            // In a real app, you would verify current password and update
-                            showToast('Master password changed successfully', ToastType.SUCCESS);
-                            addActivityLog('Master password changed', AppState.user.email, 'success');
-                            closeModal();
-                        }}
-                    ]);
-                });
-            }, 100);
-        }
-        
-        function loadPasswords() {
-            const passwordGrid = document.getElementById('passwordGrid');
-            if (!passwordGrid) return;
-            
-            passwordGrid.innerHTML = '';
-            
-            AppState.passwords.forEach(password => {
-                const passwordItem = document.createElement('div');
-                passwordItem.className = 'password-item';
-                
-                const categoryClass = password.category === 'academy' ? 'status-academy' : 
-                                    password.category === 'mod-apk' ? 'status-mod' : 'status-healthy';
-                
-                passwordItem.innerHTML = `
-                    <div class="password-item-header">
-                        <div class="password-name">${password.name}</div>
-                        <span class="status-pill ${categoryClass}">${password.category}</span>
-                    </div>
-                    <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                        <i class="fas fa-user"></i> ${password.username}
-                    </div>
-                    <div class="password-value">
-                        <span class="password-hidden">••••••••••••</span>
-                        <button class="btn btn-secondary btn-sm show-password-btn" data-id="${password.id}">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                    ${password.notes ? `<div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">${password.notes}</div>` : ''}
-                    <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem;">
-                        <button class="btn btn-secondary btn-sm edit-password-btn" data-id="${password.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-secondary btn-sm copy-password-btn" data-id="${password.id}">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                `;
-                
-                passwordGrid.appendChild(passwordItem);
-            });
-            
-            // Add event listeners
-            document.querySelectorAll('.show-password-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const passwordId = parseInt(this.getAttribute('data-id'));
-                    const password = AppState.passwords.find(p => p.id === passwordId);
-                    if (!password) return;
-                    
-                    const passwordHidden = this.parentElement.querySelector('.password-hidden');
-                    if (passwordHidden.textContent === '••••••••••••') {
-                        passwordHidden.textContent = password.password;
-                        this.innerHTML = '<i class="fas fa-eye-slash"></i>';
-                        
-                        // Auto hide after 10 seconds
-                        setTimeout(() => {
-                            if (passwordHidden.textContent !== '••••••••••••') {
-                                passwordHidden.textContent = '••••••••••••';
-                                this.innerHTML = '<i class="fas fa-eye"></i>';
-                            }
-                        }, 10000);
-                    } else {
-                        passwordHidden.textContent = '••••••••••••';
-                        this.innerHTML = '<i class="fas fa-eye"></i>';
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.copy-password-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const passwordId = parseInt(this.getAttribute('data-id'));
-                    const password = AppState.passwords.find(p => p.id === passwordId);
-                    if (!password) return;
-                    
-                    // Copy to clipboard
-                    navigator.clipboard.writeText(password.password).then(() => {
-                        showToast('Password copied to clipboard', ToastType.SUCCESS);
-                    });
-                });
-            });
-            
-            document.querySelectorAll('.edit-password-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const passwordId = parseInt(this.getAttribute('data-id'));
-                    editPassword(passwordId);
-                });
-            });
-        }
-        
-        function editPassword(passwordId) {
-            const password = AppState.passwords.find(p => p.id === passwordId);
-            if (!password) return;
-            
-            showModal('Edit Password', `
-                <div>
-                    <h4 style="margin-bottom: 1rem;">Edit Password</h4>
-                    <div class="form-group">
-                        <label for="editPasswordName">Name/Service</label>
-                        <input type="text" id="editPasswordName" value="${password.name}" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editPasswordUsername">Username</label>
-                        <input type="text" id="editPasswordUsername" value="${password.username}" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editPasswordValue">Password</label>
-                        <input type="password" id="editPasswordValue" value="${password.password}" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editPasswordCategory">Category</label>
-                        <select id="editPasswordCategory" required>
-                            <option value="academy" ${password.category === 'academy' ? 'selected' : ''}>Chil Ratna Khan Academy</option>
-                            <option value="mod-apk" ${password.category === 'mod-apk' ? 'selected' : ''}>Mod APK Server</option>
-                            <option value="server" ${password.category === 'server' ? 'selected' : ''}>General Server</option>
-                            <option value="database" ${password.category === 'database' ? 'selected' : ''}>Database</option>
-                            <option value="ftp" ${password.category === 'ftp' ? 'selected' : ''}>FTP/SFTP</option>
-                            <option value="other" ${password.category === 'other' ? 'selected' : ''}>Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editPasswordNotes">Notes</label>
-                        <textarea id="editPasswordNotes">${password.notes || ''}</textarea>
-                    </div>
-                </div>
-            `, [
-                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                { text: 'Delete Password', class: 'btn-danger', action: () => {
-                    deletePassword(passwordId);
-                    closeModal();
-                }},
-                { text: 'Save Changes', class: 'btn-primary', action: () => {
-                    password.name = document.getElementById('editPasswordName').value;
-                    password.username = document.getElementById('editPasswordUsername').value;
-                    password.password = document.getElementById('editPasswordValue').value;
-                    password.category = document.getElementById('editPasswordCategory').value;
-                    password.notes = document.getElementById('editPasswordNotes').value;
-                    
-                    showToast('Password updated successfully', ToastType.SUCCESS);
-                    addActivityLog(`Password updated: ${password.name}`, AppState.user.email, 'success');
-                    
-                    // Reload passwords
-                    loadPasswords();
-                    closeModal();
-                }}
-            ]);
-        }
-        
-        function deletePassword(passwordId) {
-            const password = AppState.passwords.find(p => p.id === passwordId);
-            if (!password) return;
-            
-            showModal('Delete Password', `
-                <div>
-                    <h4 style="color: var(--danger); margin-bottom: 1rem;">Delete Password</h4>
-                    <p>Are you sure you want to delete this password?</p>
-                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
-                        This action cannot be undone.
-                    </p>
-                    <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(239, 68, 68, 0.1); border-radius: var(--border-radius);">
-                        <p><strong>Name:</strong> ${password.name}</p>
-                        <p><strong>Username:</strong> ${password.username}</p>
-                        <p><strong>Category:</strong> ${password.category}</p>
-                    </div>
-                </div>
-            `, [
-                { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                { text: 'Delete Password', class: 'btn-danger', action: () => {
-                    // Remove password from array
-                    const index = AppState.passwords.findIndex(p => p.id === passwordId);
-                    if (index > -1) {
-                        AppState.passwords.splice(index, 1);
-                    }
-                    
-                    // Update activity log
-                    addActivityLog(`Password deleted: ${password.name}`, AppState.user.email, 'warning');
-                    
-                    // Show success message
-                    showToast('Password deleted successfully', ToastType.SUCCESS);
-                    
-                    // Reload passwords
-                    loadPasswords();
-                    
-                    closeModal();
-                }}
-            ]);
-        }
-        
-        // ===== OTHER PAGE FUNCTIONS =====
-        // Note: The rest of the page functions (loadServersPage, loadAnalyticsPage, etc.) 
-        // would be included here from the previous implementation, but due to character limits,
-        // I'm focusing on the new features. The existing pages would work as before.
-        
-        // ===== EVENT LISTENERS INITIALIZATION =====
-        function initEventListeners() {
-            // Sidebar toggle
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            
-            sidebarToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('collapsed');
-                
-                // Update toggle icon direction
-                const icon = sidebarToggle.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                    icon.className = 'fas fa-chevron-right';
-                } else {
-                    icon.className = 'fas fa-chevron-left';
-                }
-            });
-            
-            // Theme toggle
+        function initTheme() {
             const themeToggle = document.getElementById('themeToggle');
+            const savedTheme = localStorage.getItem('mkTheme') || 'light';
             
-            themeToggle.addEventListener('click', () => {
+            // Apply saved theme
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            // Theme toggle event
+            themeToggle.addEventListener('click', function() {
                 if (document.body.classList.contains('dark-theme')) {
                     document.body.classList.remove('dark-theme');
-                    AppState.theme = 'light';
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    localStorage.setItem('mkTheme', 'light');
+                    this.innerHTML = '<i class="fas fa-sun"></i>';
                 } else {
                     document.body.classList.add('dark-theme');
-                    AppState.theme = 'dark';
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    localStorage.setItem('mkTheme', 'dark');
+                    this.innerHTML = '<i class="fas fa-moon"></i>';
                 }
             });
+        }
+        
+        function setupEventListeners() {
+            console.log('Setting up event listeners');
             
-            // Navigation
-            document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+            // Login form
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+                console.log('Login form event listener added');
+            }
+            
+            // Logout button
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', handleLogout);
+            }
+            
+            // Sidebar toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                    const icon = this.querySelector('i');
+                    if (sidebar.classList.contains('collapsed')) {
+                        icon.className = 'fas fa-chevron-right';
+                    } else {
+                        icon.className = 'fas fa-chevron-left';
+                    }
+                });
+            }
+            
+            // Navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Get page name
                     const page = this.getAttribute('data-page');
-                    loadPage(page);
+                    if (page) {
+                        // Update page title
+                        const pageTitle = document.getElementById('pageTitle');
+                        if (pageTitle) {
+                            const title = page.charAt(0).toUpperCase() + page.slice(1);
+                            pageTitle.textContent = title;
+                        }
+                        
+                        // Show message
+                        showToast(`Navigated to ${page} page`, 'info');
+                    }
                 });
             });
             
-            // Dashboard buttons
-            document.getElementById('newAcademyRequestBtn')?.addEventListener('click', () => {
-                loadPage('serverRequests');
-            });
+            // Deploy server button
+            const deployBtn = document.getElementById('deployServerBtn');
+            if (deployBtn) {
+                deployBtn.addEventListener('click', function() {
+                    showToast('Server deployment initiated', 'success');
+                });
+            }
             
-            document.getElementById('newModRequestBtn')?.addEventListener('click', () => {
-                loadPage('serverRequests');
-            });
-            
-            document.getElementById('viewAcademyRequestsBtn')?.addEventListener('click', () => {
-                loadPage('serverRequests');
-                setTimeout(() => {
-                    filterRequests('academy');
-                }, 100);
-            });
-            
-            document.getElementById('viewModRequestsBtn')?.addEventListener('click', () => {
-                loadPage('serverRequests');
-                setTimeout(() => {
-                    filterRequests('mod-apk');
-                }, 100);
-            });
-            
-            document.getElementById('viewAllRequestsBtn')?.addEventListener('click', () => {
-                loadPage('serverRequests');
-            });
-            
-            // Modal close button
-            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-            
-            // Close modal when clicking outside
-            document.getElementById('serverModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal();
-                }
-            });
-            
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                showModal('Confirm Logout', `
-                    <div>
-                        <p>Are you sure you want to logout?</p>
-                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">You will be redirected to the login page.</p>
-                    </div>
-                `, [
-                    { text: 'Cancel', class: 'btn-secondary', action: closeModal },
-                    { text: 'Logout', class: 'btn-danger', action: () => {
-                        addActivityLog('User logged out', AppState.user.email, 'success');
-                        showToast('Successfully logged out', ToastType.SUCCESS);
-                        closeModal();
-                        
-                        // Clear login state and redirect to login
-                        localStorage.removeItem('mkMultiverseLoggedIn');
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1500);
-                    }}
-                ]);
-            });
+            // Enter key in password field
+            const passwordField = document.getElementById('password');
+            if (passwordField) {
+                passwordField.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        handleLogin(e);
+                    }
+                });
+            }
         }
     </script>
 </body>
